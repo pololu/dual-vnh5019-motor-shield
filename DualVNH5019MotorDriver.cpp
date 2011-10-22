@@ -1,33 +1,24 @@
 #include <DualVNH5019MotorDriver.h>
-
+#include <avr/interrupt.h>
+#include <avr/io.h>
 
 DualVNH5019MotorDriver::DualVNH5019MotorDriver()
 {
 	//Pin map
-	int ledPin = 13;
-	int INB1 = 4;
-	int INA1 = 2;
-	int PWM1 = 9;
-	int PWM2 = 10;
-	int INA2 = 7;
-	int INB2 = 8;
-	int ENA1+ENB1 = 6;
-	int ENA2+ENB2 = 12;
+	INB1 = 4;
+	INA1 = 2;
+	PWM1 = 9;
+	PWM2 = 10;
+	INA2 = 7;
+	INB2 = 8;
+	ENA1ENB1 = 6;
+	ENA2ENB2 = 12;
 	pinMode(INB1,OUTPUT);
 	pinMode(INA1,OUTPUT);
 	pinMode(INA2,OUTPUT);
 	pinMode(INB2,OUTPUT);
 	pinMode(PWM1,OUTPUT);
 	pinMode(PWM2,OUTPUT);
-	pinMode(ENA1+ENB1,OUTPUT);
-	pinMode(ENA2+ENB2,OUTPUT);
-	digitalWrite(INA1,HIGH);
-	digitalWrite(INB1,LOW);
-	digitalWrite(INA2,HIGH);
-	digitalWrite(INB2,LOW);
-	//LED
-	pinMode(ledPin, OUTPUT);
-	digitalWrite(ledPin, HIGH);
 	//PWM
 	TCCR1A = 0b10100000;// clkI/O /1 prescaler
 	TCCR1B = 0b00010001;// 400 gives 20 kHz
@@ -48,12 +39,12 @@ static void DualVNH5019MotorDriver::setM1Speed(int speed)
 	OCR1A = speed;
 	if (speed == 0)
 	{
-		TCCR1A = 0;
-		setM1Brake(l);
+		//TCCR1A = 0;
+		setM1Brake(0);
 	}
 	else
 	{
-		TCCR1A = 0b10100000;// clkI/O /1 prescaler
+		//TCCR1A = 0b10100000;// clkI/O /1 prescaler
 		if (reverse)
 		{
 			digitalWrite(INA1,LOW);
@@ -81,12 +72,12 @@ static void DualVNH5019MotorDriver::setM2Speed(int speed)
 	OCR1B = speed;
 	if (speed == 0)
 	{
-		TCCR1B = 0;
-		setM2Brake(l);
+		//TCCR1B = 0;
+		setM2Brake(0);
 	}
 	else
 	{
-		TCCR1B = 0b10100000;// clkI/O /1 prescaler
+		//TCCR1B = 0b10100000;// clkI/O /1 prescaler
 		if (reverse)
 		{
 			digitalWrite(INA2,LOW);
@@ -106,48 +97,26 @@ static void DualVNH5019MotorDriver::setSpeeds(int m1Speed, int m2Speed)
 	setM2Speed(m2Speed);
 }
 
-static void DualVNH5019MotorDriver::setM1Brake(unsigned char brake_mode)
+// coastDutyCycle is a number between 0 and 400
+static void DualVNH5019MotorDriver::setM1Brake(int coastDutyCycle)
 {
-	if (break_mode == 'c') //Coasting
-	{
-		digitalWrite(INA1, HIGH);
-		digitalWrite(INB1, HIGH);
-		digitalWrite(ENA1+ENB1, HIGH);
-		digitalWrite(PWM1, LOW);
-	}
-	else if (break_mode == 'l') //Brake Low
-	{
-		digitalWrite(INA1, LOW);
-		digitalWrite(INB1, LOW);
-		digitalWrite(ENA1+ENB1, HIGH);
-		digitalWrite(PWM1, HIGH);
-	}
+	digitalWrite(INA1, LOW);
+	digitalWrite(INB1, LOW);
+	OCR1A = coastDutyCycle;
 }
 
-static void DualVNH5019MotorDriver::setM2Brake(unsigned char brake_mode)
+// coastDutyCycle is a number between 0 and 400
+static void DualVNH5019MotorDriver::setM2Brake(int coastDutyCycle)
 {
-	if (break_mode == 'c') //Coasting
-	{
-		digitalWrite(INA2, HIGH);
-		digitalWrite(INB2, HIGH);
-		digitalWrite(ENA2+ENB2, HIGH);
-		digitalWrite(PWM2, LOW);
-	}
-	else if (break_mode == 'l') //Brake Low
-	{
-		digitalWrite(INA2, LOW);
-		digitalWrite(INB2, LOW);
-		digitalWrite(ENA2+ENB2, HIGH);
-		digitalWrite(PWM2, HIGH);
-	}
+	digitalWrite(INA2, LOW);
+	digitalWrite(INB2, LOW);
+	OCR1B = coastDutyCycle;
 }
 
-
-
-static void DualVNH5019MotorDriver::vbreak(unsigned char brake)
+static void DualVNH5019MotorDriver::brake(int coastDutyCycle)
 {
-	setM1Brake(brake);
-	setM2Brake(brake);
+	setM1Brake(coastDutyCycle);
+	setM2Brake(coastDutyCycle);
 }
 
 
