@@ -1,7 +1,4 @@
 #include "DualVNH5019MotorDriver.h"
-// #include <avr/interrupt.h>
-// #include <avr/io.h>
-#include <WProgram.h>
 #include "pins_arduino.h"
 
 DualVNH5019MotorDriver::DualVNH5019MotorDriver()
@@ -147,5 +144,16 @@ void DualVNH5019MotorDriver::brake(int coastDutyCycle)
 	setM2Brake(coastDutyCycle);
 }
 
+double DualVNH5019MotorDriver::getM1CurrentMilliamps()
+{
+	double val;
+	val = analogRead(0);
+	return val;
+}
 
-
+double DualVNH5019MotorDriver::getM2CurrentMilliamps()
+{
+	double val;
+	val = analogRead(1);
+	return val;
+}

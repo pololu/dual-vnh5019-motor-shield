@@ -18,18 +18,11 @@ class DualVNH5019MotorDriver
 		void setM1Brake(int coastDutyCycle);
 		void setM2Brake(int coastDutyCycle);
 		void brake(int coastDutyCycle);// choose between coasting mode and brake low.
+		double getM1CurrentMilliamps();
+		double getM2CurrentMilliamps();
 		
 	private:
 	
-		/*int ledPin = 13;
-		int INB1 = 4;
-		int INA1 = 2;
-		int PWM1 = 9;
-		int PWM2 = 10;
-		int INA2 = 7;
-		int INB2 = 8;
-		int ENA1ENB1 = 6;
-		int ENA2ENB2 = 12;*/
 		int ledPin;
 		int INB1;
 		int INA1;
@@ -39,7 +32,8 @@ class DualVNH5019MotorDriver
 		int INB2;
 		int ENA1ENB1;
 		int ENA2ENB2;
-		
+		int CS1;
+		int CS2;
 		
 		
 };
