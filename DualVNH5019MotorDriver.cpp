@@ -1,10 +1,13 @@
-#include <DualVNH5019MotorDriver.h>
-#include <avr/interrupt.h>
-#include <avr/io.h>
+#include "DualVNH5019MotorDriver.h"
+// #include <avr/interrupt.h>
+// #include <avr/io.h>
+#include <WProgram.h>
+#include "pins_arduino.h"
 
 DualVNH5019MotorDriver::DualVNH5019MotorDriver()
 {
 	//Pin map
+	ledPin = 13;
 	INB1 = 4;
 	INA1 = 2;
 	PWM1 = 9;
@@ -25,7 +28,32 @@ DualVNH5019MotorDriver::DualVNH5019MotorDriver()
 	ICR1 = 400;
 }
 
-static void DualVNH5019MotorDriver::setM1Speed(int speed)
+DualVNH5019MotorDriver::DualVNH5019MotorDriver(int _ledpin, int _inb1, int _ina1, int _ina2, int _inb2, int _ena1enb1, int _ena2enb2)
+{
+	//Pin map
+	ledPin = _ledpin;
+	INB1 = _inb1;
+	INA1 = _ina1;
+	PWM1 = 9;
+	PWM2 = 10;
+	INA2 = _ina2;
+	INB2 = _inb2;
+	ENA1ENB1 = _ena1enb1;
+	ENA2ENB2 = _ena2enb2;
+	pinMode(INB1,OUTPUT);
+	pinMode(INA1,OUTPUT);
+	pinMode(INA2,OUTPUT);
+	pinMode(INB2,OUTPUT);
+	pinMode(PWM1,OUTPUT);
+	pinMode(PWM2,OUTPUT);
+	//PWM
+	TCCR1A = 0b10100000;// clkI/O /1 prescaler
+	TCCR1B = 0b00010001;// 400 gives 20 kHz
+	ICR1 = 400;
+}
+
+
+void DualVNH5019MotorDriver::setM1Speed(int speed)
 {
 	unsigned char reverse = 0;
 	
@@ -58,7 +86,7 @@ static void DualVNH5019MotorDriver::setM1Speed(int speed)
 	}
 }
 
-static void DualVNH5019MotorDriver::setM2Speed(int speed)
+void DualVNH5019MotorDriver::setM2Speed(int speed)
 {
 	unsigned char reverse = 0;
 	
@@ -91,14 +119,14 @@ static void DualVNH5019MotorDriver::setM2Speed(int speed)
 	}
 }
 
-static void DualVNH5019MotorDriver::setSpeeds(int m1Speed, int m2Speed)
+void DualVNH5019MotorDriver::setSpeeds(int m1Speed, int m2Speed)
 {
 	setM1Speed(m1Speed);
 	setM2Speed(m2Speed);
 }
 
 // coastDutyCycle is a number between 0 and 400
-static void DualVNH5019MotorDriver::setM1Brake(int coastDutyCycle)
+void DualVNH5019MotorDriver::setM1Brake(int coastDutyCycle)
 {
 	digitalWrite(INA1, LOW);
 	digitalWrite(INB1, LOW);
@@ -106,14 +134,14 @@ static void DualVNH5019MotorDriver::setM1Brake(int coastDutyCycle)
 }
 
 // coastDutyCycle is a number between 0 and 400
-static void DualVNH5019MotorDriver::setM2Brake(int coastDutyCycle)
+void DualVNH5019MotorDriver::setM2Brake(int coastDutyCycle)
 {
 	digitalWrite(INA2, LOW);
 	digitalWrite(INB2, LOW);
 	OCR1B = coastDutyCycle;
 }
 
-static void DualVNH5019MotorDriver::brake(int coastDutyCycle)
+void DualVNH5019MotorDriver::brake(int coastDutyCycle)
 {
 	setM1Brake(coastDutyCycle);
 	setM2Brake(coastDutyCycle);

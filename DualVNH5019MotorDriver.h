@@ -1,5 +1,6 @@
 #ifndef DualVNH5019MotorDriver_h
 #define DualVNH5019MotorDriver_h
+#include <WProgram.h>
 
 class DualVNH5019MotorDriver
 {
@@ -7,16 +8,16 @@ class DualVNH5019MotorDriver
 	
 		//CONSTRUCTORS
 		DualVNH5019MotorDriver(); //default
-		//DualVNH5019MotorDriver(int INB1, int INA1, int INA2, int INB2); //
+		DualVNH5019MotorDriver(int _led, int _inb1, int _ina1, int _ina2, int _inb2, int _ena1enb1, int _ena2enb2); //user define pins
 		// sets the motor speed.  The sign of 'speed' determines the direction
 		// and the magnitude determines the speed.  limits: -400 <= speed <= 400
 		// |speed| = 400 produces the maximum speed while speed = 0 is full brake.
-		static void setM1Speed(int speed);
-		static void setM2Speed(int speed);
-		static void setSpeeds(int m1Speed, int m2Speed);
-		static void setM1Brake(int coastDutyCycle);
-		static void setM2Brake(int coastDutyCycle);
-		static void brake(int coastDutyCycle);// choose between coasting mode and brake low.
+		void setM1Speed(int speed);
+		void setM2Speed(int speed);
+		void setSpeeds(int m1Speed, int m2Speed);
+		void setM1Brake(int coastDutyCycle);
+		void setM2Brake(int coastDutyCycle);
+		void brake(int coastDutyCycle);// choose between coasting mode and brake low.
 		
 	private:
 	
