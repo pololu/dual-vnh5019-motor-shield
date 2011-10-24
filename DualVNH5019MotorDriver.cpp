@@ -146,14 +146,10 @@ void DualVNH5019MotorDriver::brake(int coastDutyCycle)
 
 double DualVNH5019MotorDriver::getM1CurrentMilliamps()
 {
-	double val;
-	val = analogRead(0);
-	return val;
+	return analogRead(0);
 }
 
 double DualVNH5019MotorDriver::getM2CurrentMilliamps()
 {
-	double val;
-	val = analogRead(1);
-	return val;
+	return analogRead(1);
 }
