@@ -64,12 +64,10 @@ void DualVNH5019MotorDriver::setM1Speed(int speed)
 	OCR1A = speed;
 	if (speed == 0)
 	{
-		//TCCR1A = 0;
 		setM1Brake(0);
 	}
 	else
 	{
-		//TCCR1A = 0b10100000;// clkI/O /1 prescaler
 		if (reverse)
 		{
 			digitalWrite(INA1,LOW);
@@ -97,12 +95,10 @@ void DualVNH5019MotorDriver::setM2Speed(int speed)
 	OCR1B = speed;
 	if (speed == 0)
 	{
-		//TCCR1B = 0;
 		setM2Brake(0);
 	}
 	else
 	{
-		//TCCR1B = 0b10100000;// clkI/O /1 prescaler
 		if (reverse)
 		{
 			digitalWrite(INA2,LOW);
