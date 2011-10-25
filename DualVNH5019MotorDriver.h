@@ -1,6 +1,7 @@
 #ifndef DualVNH5019MotorDriver_h
 #define DualVNH5019MotorDriver_h
 #include <WProgram.h>
+#include "pins_arduino.h"
 
 class DualVNH5019MotorDriver
 {
@@ -18,8 +19,8 @@ class DualVNH5019MotorDriver
 		void setM1Brake(int coastDutyCycle);
 		void setM2Brake(int coastDutyCycle);
 		void brake(int coastDutyCycle);// choose between coasting mode and brake low.
-		double getM1CurrentMilliamps();
-		double getM2CurrentMilliamps();
+		int getM1CurrentMilliamps();
+		int getM2CurrentMilliamps();
 		
 	private:
 	
