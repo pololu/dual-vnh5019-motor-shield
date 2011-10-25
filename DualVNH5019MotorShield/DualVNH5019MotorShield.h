@@ -1,15 +1,17 @@
-#ifndef DualVNH5019MotorDriver_h
-#define DualVNH5019MotorDriver_h
+#ifndef DualVNH5019MotorShield_h
+#define DualVNH5019MotorShield_h
 #include <WProgram.h>
 #include "pins_arduino.h"
 
-class DualVNH5019MotorDriver
+class DualVNH5019MotorShield
 {
 	public:
-	
 		//CONSTRUCTORS
-		DualVNH5019MotorDriver(); //default
-		DualVNH5019MotorDriver(int _led, int _inb1, int _ina1, int _ina2, int _inb2, int _ena1enb1, int _ena2enb2); //user define pins
+		DualVNH5019MotorShield(); //default
+		DualVNH5019MotorShield(int INB1, int INA1, int INA2, int INB2, int EN1, int EN2); //user define pins
+		
+		void init();
+		
 		// sets the motor speed.  The sign of 'speed' determines the direction
 		// and the magnitude determines the speed.  limits: -400 <= speed <= 400
 		// |speed| = 400 produces the maximum speed while speed = 0 is full brake.
@@ -21,18 +23,18 @@ class DualVNH5019MotorDriver
 		void brake(int coastDutyCycle);// choose between coasting mode and brake low.
 		int getM1CurrentMilliamps();
 		int getM2CurrentMilliamps();
+		bool getM1Error();
+		bool getM2Error();
 		
 	private:
-	
-		int ledPin;
 		int INB1;
 		int INA1;
 		int PWM1;
 		int PWM2;
 		int INA2;
 		int INB2;
-		int ENA1ENB1;
-		int ENA2ENB2;
+		int EN1DIAG1;
+		int EN2DIAG2;
 		int CS1;
 		int CS2;
 		

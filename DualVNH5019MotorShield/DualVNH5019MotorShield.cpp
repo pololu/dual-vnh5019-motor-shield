@@ -1,56 +1,54 @@
-#include "DualVNH5019MotorDriver.h"
+#include "DualVNH5019MotorShield.h"
 #include "pins_arduino.h"
 
-DualVNH5019MotorDriver::DualVNH5019MotorDriver()
+DualVNH5019MotorShield::DualVNH5019MotorShield()
 {
 	//Pin map
-	ledPin = 13;
 	INB1 = 4;
 	INA1 = 2;
-	PWM1 = 9;
-	PWM2 = 10;
 	INA2 = 7;
 	INB2 = 8;
-	ENA1ENB1 = 6;
-	ENA2ENB2 = 12;
-	pinMode(INB1,OUTPUT);
-	pinMode(INA1,OUTPUT);
-	pinMode(INA2,OUTPUT);
-	pinMode(INB2,OUTPUT);
-	pinMode(PWM1,OUTPUT);
-	pinMode(PWM2,OUTPUT);
-	//PWM
-	TCCR1A = 0b10100000;// clkI/O /1 prescaler
-	TCCR1B = 0b00010001;// 400 gives 20 kHz
-	ICR1 = 400;
-}
-
-DualVNH5019MotorDriver::DualVNH5019MotorDriver(int _ledpin, int _inb1, int _ina1, int _ina2, int _inb2, int _ena1enb1, int _ena2enb2)
-{
-	//Pin map
-	ledPin = _ledpin;
-	INB1 = _inb1;
-	INA1 = _ina1;
+	EN1DIAG1 = 6;
+	EN2DIAG2 = 12;
 	PWM1 = 9;
 	PWM2 = 10;
-	INA2 = _ina2;
-	INB2 = _inb2;
-	ENA1ENB1 = _ena1enb1;
-	ENA2ENB2 = _ena2enb2;
+	CS1 = 0;
+	CS2 = 1;
+}
+
+DualVNH5019MotorShield::DualVNH5019MotorShield(int _INB1, int _INA1, int _INA2, int _INB2, int _EN1, int _EN2)
+{
+	//Pin map
+	INB1 = _INB1;
+	INA1 = _INA1;
+	INA2 = _INA2;
+	INB2 = _INB2;
+	EN1DIAG1 = _EN1;
+	EN2DIAG2 = _EN2;
+	//PWM1 and PWM2 cannot be remapped because the library assumes PWM is on timer1
+	PWM1 = 9;
+	PWM2 = 10;
+}
+
+void DualVNH5019MotorShield::init()
+{
 	pinMode(INB1,OUTPUT);
 	pinMode(INA1,OUTPUT);
 	pinMode(INA2,OUTPUT);
 	pinMode(INB2,OUTPUT);
 	pinMode(PWM1,OUTPUT);
 	pinMode(PWM2,OUTPUT);
+	pinMode(EN1DIAG1,INPUT);
+	pinMode(EN2DIAG2,INPUT);
+	pinMode(CS1,INPUT);
+	pinMode(CS2,INPUT);
 	//PWM
 	TCCR1A = 0b10100000;// clkI/O /1 prescaler
-	TCCR1B = 0b00010001;// 400 gives 20 kHz
-	ICR1 = 400;
+	TCCR1B = 0b00010001;
+	ICR1 = 400; // 400 gives 20kHz
 }
 
-
-void DualVNH5019MotorDriver::setM1Speed(int speed)
+void DualVNH5019MotorShield::setM1Speed(int speed)
 {
 	unsigned char reverse = 0;
 	
@@ -81,7 +79,7 @@ void DualVNH5019MotorDriver::setM1Speed(int speed)
 	}
 }
 
-void DualVNH5019MotorDriver::setM2Speed(int speed)
+void DualVNH5019MotorShield::setM2Speed(int speed)
 {
 	unsigned char reverse = 0;
 	
@@ -112,40 +110,64 @@ void DualVNH5019MotorDriver::setM2Speed(int speed)
 	}
 }
 
-void DualVNH5019MotorDriver::setSpeeds(int m1Speed, int m2Speed)
+void DualVNH5019MotorShield::setSpeeds(int m1Speed, int m2Speed)
 {
 	setM1Speed(m1Speed);
 	setM2Speed(m2Speed);
 }
 
 // coastDutyCycle is a number between 0 and 400
-void DualVNH5019MotorDriver::setM1Brake(int coastDutyCycle)
+void DualVNH5019MotorShield::setM1Brake(int coastDutyCycle)
 {
+	// normalize coastDutyCycle
+	if (coastDutyCycle < 0)
+	{
+		coastDutyCycle = -coastDutyCycle;
+	}
+	if (coastDutyCycle > 400)	// Max dutyCycle
+		coastDutyCycle = 400;
 	digitalWrite(INA1, LOW);
 	digitalWrite(INB1, LOW);
 	OCR1A = coastDutyCycle;
 }
 
 // coastDutyCycle is a number between 0 and 400
-void DualVNH5019MotorDriver::setM2Brake(int coastDutyCycle)
+void DualVNH5019MotorShield::setM2Brake(int coastDutyCycle)
 {
+	// normalize coastDutyCycle
+	if (coastDutyCycle < 0)
+	{
+		coastDutyCycle = -coastDutyCycle;
+	}
+	if (coastDutyCycle > 400)	// Max dutyCycle
+		coastDutyCycle = 400;
 	digitalWrite(INA2, LOW);
 	digitalWrite(INB2, LOW);
 	OCR1B = coastDutyCycle;
 }
 
-void DualVNH5019MotorDriver::brake(int coastDutyCycle)
+void DualVNH5019MotorShield::brake(int coastDutyCycle)
 {
 	setM1Brake(coastDutyCycle);
 	setM2Brake(coastDutyCycle);
 }
 
-int DualVNH5019MotorDriver::getM1CurrentMilliamps()
+int DualVNH5019MotorShield::getM1CurrentMilliamps()
 {
-	return analogRead(0) * 23;
+	return analogRead(CS1) * 23;
 }
 
-int DualVNH5019MotorDriver::getM2CurrentMilliamps()
+int DualVNH5019MotorShield::getM2CurrentMilliamps()
 {
-	return analogRead(1) * 23;
+	return analogRead(CS2) * 23;
+}
+
+bool DualVNH5019MotorShield::getM1Error()
+{
+	return digitalRead(EN1DIAG1);
+}
+
+bool DualVNH5019MotorShield::getM2Error()
+{
+	return digitalRead(EN2DIAG2);
 }
