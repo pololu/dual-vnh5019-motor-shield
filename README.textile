@@ -1,0 +1,31 @@
+h1. Arduino library for the Pololu Dual VNH5019 Motor Driver Shield
+
+Version: 1.0.0
+Release Date:
+"www.pololu.com":http://www.pololu.com/
+
+h2. Summary
+
+This is a library for the "Arduino":http://pololu.com/catalog/product/1616 that interfaces with the Pololu "Dual VNH5019 Motor Driver Shield":http://www.pololu.com/catalog/product/2502. It makes it simple to drive two brushed, DC motors.
+
+h2. Getting Started
+
+h3. Software
+
+Download the archive from "GitHub":https://github.com/pololu/DualVNH5019MotorShield, decompress it, and drag the "DualVNH5019MotorShield" folder to your arduino-00xx/libraries directory. Then restart the Arduino environment, so the libraries can be updated to include the library and its examples.
+
+h3. Hardware
+
+The board for the DualVNH5019MotorShield can be purchased on "Pololu's website":http://www.pololu.com/catalog/product/2502. See the "motor shield user's guide":http://www.pololu.com/docs/0J49 for more details.
+
+h2. Example Programs
+
+Open an example code sketch by selecting File->Examples->DualVNH5019MotorShield->example_name
+
+h3. Demo
+
+This program continously 
+
+h2. Library Reference
+
+- @vector a@ := The last values read from the accelerometer.
