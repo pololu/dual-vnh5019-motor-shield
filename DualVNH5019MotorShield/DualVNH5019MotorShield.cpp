@@ -8,12 +8,10 @@ DualVNH5019MotorShield::DualVNH5019MotorShield()
   //Pin map
   _INA1 = 2;
   _INB1 = 4;
-  _PWM1 = 9;
   _EN1DIAG1 = 6;
   _CS1 = A0; 
   _INA2 = 7;
   _INB2 = 8;
-  _PWM2 = 10;
   _EN2DIAG2 = 12;
   _CS2 = A1;
 }
@@ -25,12 +23,10 @@ DualVNH5019MotorShield::DualVNH5019MotorShield(unsigned char INA1, unsigned char
   //PWM1 and PWM2 cannot be remapped because the library assumes PWM is on timer1
   _INA1 = INA1;
   _INB1 = INB1;
-  _PWM1 = 9;
   _EN1DIAG1 = EN1DIAG1;
   _CS1 = CS1;
   _INA2 = INA2;
   _INB2 = INB2;
-  _PWM2 = 10;
   _EN2DIAG2 = EN2DIAG2;
   _CS2 = CS2;
 }
