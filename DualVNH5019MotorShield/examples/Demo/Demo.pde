@@ -31,7 +31,7 @@ void loop()
     stopIfFault();
     if (i%200 == 100)
     {
-      Serial.print("M1 current:");
+      Serial.print("M1 current: ");
       Serial.println(md.getM1CurrentMilliamps());
     }
     delay(2);
@@ -43,7 +43,7 @@ void loop()
     stopIfFault();
     if (i%200 == 100)
     {
-      Serial.print("M1 current:");
+      Serial.print("M1 current: ");
       Serial.println(md.getM1CurrentMilliamps());
     }
     delay(2);
@@ -55,7 +55,7 @@ void loop()
     stopIfFault();
     if (i%200 == 100)
     {
-      Serial.print("M1 current:");
+      Serial.print("M1 current: ");
       Serial.println(md.getM1CurrentMilliamps());
     }
     delay(2);
@@ -67,7 +67,7 @@ void loop()
     stopIfFault();
     if (i%200 == 100)
     {
-      Serial.print("M2 current:");
+      Serial.print("M2 current: ");
       Serial.println(md.getM2CurrentMilliamps());
     }
     delay(2);
@@ -79,7 +79,7 @@ void loop()
     stopIfFault();
     if (i%200 == 100)
     {
-      Serial.print("M2 current:");
+      Serial.print("M2 current: ");
       Serial.println(md.getM2CurrentMilliamps());
     }
     delay(2);
@@ -91,7 +91,7 @@ void loop()
     stopIfFault();
     if (i%200 == 100)
     {
-      Serial.print("M2 current:");
+      Serial.print("M2 current: ");
       Serial.println(md.getM2CurrentMilliamps());
     }
     delay(2);

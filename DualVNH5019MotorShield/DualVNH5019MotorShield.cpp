@@ -19,7 +19,7 @@ DualVNH5019MotorShield::DualVNH5019MotorShield()
 }
 
 DualVNH5019MotorShield::DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1, 
-                                           unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2)
+                                               unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2)
 {
   //Pin map
   //PWM1 and PWM2 cannot be remapped because the library assumes PWM is on timer1
@@ -64,7 +64,7 @@ void DualVNH5019MotorShield::init()
   ICR1 = 400;
 }
 
-// Set speed for motor 1, speed is a number betwenn 0 and 400
+// Set speed for motor 1, speed is a number betwenn -400 and 400
 void DualVNH5019MotorShield::setM1Speed(int speed)
 {
   unsigned char reverse = 0;
@@ -89,7 +89,7 @@ void DualVNH5019MotorShield::setM1Speed(int speed)
   }
 }
 
-// Set speed for motor 2, speed is a number betwenn 0 and 400
+// Set speed for motor 2, speed is a number betwenn -400 and 400
 void DualVNH5019MotorShield::setM2Speed(int speed)
 {
   unsigned char reverse = 0;
@@ -158,15 +158,17 @@ void DualVNH5019MotorShield::setBrakes(int m1Brake, int m2Brake)
   setM2Brake(m2Brake);
 }
 
-// Return motor 1 current value in mA.
+// Return motor 1 current value in milliamps.
 unsigned int DualVNH5019MotorShield::getM1CurrentMilliamps()
 {
+  //The number 23 came from 5V / 1024 ADC range / 210 mA per V, which convert the output from CS1 to milliamps.
   return analogRead(_CS1) * 23;
 }
 
-// Return motor 2 current value in mA.
+// Return motor 2 current value in milliamps.
 unsigned int DualVNH5019MotorShield::getM2CurrentMilliamps()
 {
+  //The number 23 came from 5V / 1024 ADC range / 210 mA per V, which convert the output from CS1 to milliamps.
   return analogRead(_CS2) * 23;
 }
 
