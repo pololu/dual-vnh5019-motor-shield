@@ -161,14 +161,14 @@ void DualVNH5019MotorShield::setBrakes(int m1Brake, int m2Brake)
 // Return motor 1 current value in milliamps.
 unsigned int DualVNH5019MotorShield::getM1CurrentMilliamps()
 {
-  //The number 23 came from 5V / 1024 ADC range / 210 mA per V, which convert the output from CS1 to milliamps.
+  //The number 23 came from 5V / 1024 ADC range / 210 mA per V, which converts the output from CS1 to milliamps.
   return analogRead(_CS1) * 23;
 }
 
 // Return motor 2 current value in milliamps.
 unsigned int DualVNH5019MotorShield::getM2CurrentMilliamps()
 {
-  //The number 23 came from 5V / 1024 ADC range / 210 mA per V, which convert the output from CS1 to milliamps.
+  //The number 23 came from 5V / 1024 ADC range / 210 mA per V, which converts the output from CS1 to milliamps.
   return analogRead(_CS2) * 23;
 }
 
