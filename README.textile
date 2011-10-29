@@ -1,7 +1,7 @@
 h1. Arduino library for the Pololu Dual VNH5019 Motor Driver Shield
 
 Version: 1.0.0
-Release Date:
+Release Date: 2011-10-28
 "www.pololu.com":http://www.pololu.com/
 
 h2. Summary
@@ -16,7 +16,7 @@ Download the archive from "GitHub":https://github.com/pololu/DualVNH5019MotorShi
 
 h3. Hardware
 
-The board for the DualVNH5019MotorShield can be purchased on "Pololu's website":http://www.pololu.com/catalog/product/2502. See the "motor shield user's guide":http://www.pololu.com/docs/0J49 for more details.
+The Dual VNH5019 Motor Driver Shield can be purchased on "Pololu's website":http://www.pololu.com/catalog/product/2502. See the "motor shield user's guide":http://www.pololu.com/docs/0J49 for more details.
 
 h2. Example Program
 
