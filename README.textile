@@ -12,7 +12,7 @@ h2. Getting Started
 
 h3. Software
 
-Download the archive from "GitHub":https://github.com/pololu/DualVNH5019MotorShield, decompress it, and drag the "DualVNH5019MotorShield" folder to your arduino-00xx/libraries directory. Then restart the Arduino environment, so the libraries can be updated to include the library and its examples.
+Download the archive from "GitHub":https://github.com/pololu/Dual-VNH5019-Motor-Shield, decompress it, and drag the "DualVNH5019MotorShield" folder to your arduino-00xx/libraries directory. Then restart the Arduino environment, so the libraries can be updated to include the library and its examples.
 
 h3. Hardware
 
