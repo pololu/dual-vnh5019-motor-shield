@@ -20,11 +20,11 @@ The Dual VNH5019 Motor Driver Shield can be purchased on "Pololu's website":http
 
 h2. Example Program
 
-Open an example code sketch by selecting File->Examples->DualVNH5019MotorShield->example_name
-
 h3. Demo
 
-Ramps motor 1 from stopped to full speed forward, ramps down to full speed reverse, back to stopped. Then, it does the same with the other motor. Both motor's current readings are sent over serial and can be seen with the serial monitor. If a fault is detected, a message is sent over serial.
+Open this example code sketch by selecting File->Examples->DualVNH5019MotorShield->Demo.
+
+The demo ramps motor 1 from stopped to full speed forward, ramps down to full speed reverse, and back to stopped. Then, it does the same with the other motor. Both motor's current readings are sent over serial and can be seen with the serial monitor. If a fault is detected, a message is sent over serial.
 
 h2. Library Reference
 
