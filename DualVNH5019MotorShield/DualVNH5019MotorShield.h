@@ -6,7 +6,7 @@
 
 class DualVNH5019MotorShield
 {
-  public:
+  public:  
     // CONSTRUCTORS
     DualVNH5019MotorShield(); // Default pin selection.
     DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1, 

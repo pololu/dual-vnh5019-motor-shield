@@ -32,10 +32,10 @@ DualVNH5019MotorShield::DualVNH5019MotorShield(unsigned char INA1, unsigned char
 }
 
 // Public Methods //////////////////////////////////////////////////////////////
-
-// Define pinMode for the pins and set the frequency for timer1.
 void DualVNH5019MotorShield::init()
 {
+// Define pinMode for the pins and set the frequency for timer1.
+
   pinMode(_INA1,OUTPUT);
   pinMode(_INB1,OUTPUT);
   pinMode(_PWM1,OUTPUT);
@@ -46,7 +46,7 @@ void DualVNH5019MotorShield::init()
   pinMode(_PWM2,OUTPUT);
   pinMode(_EN2DIAG2,INPUT);
   pinMode(_CS2,INPUT);
-  
+  #if defined(__AVR_ATmega8__)|| defined(__AVR_ATmega128__)
   // Timer 1 configuration
   // prescaler: clockI/O / 1
   // outputs enabled
@@ -58,8 +58,8 @@ void DualVNH5019MotorShield::init()
   TCCR1A = 0b10100000;
   TCCR1B = 0b00010001;
   ICR1 = 400;
+  #endif
 }
-
 // Set speed for motor 1, speed is a number betwenn -400 and 400
 void DualVNH5019MotorShield::setM1Speed(int speed)
 {
@@ -72,7 +72,11 @@ void DualVNH5019MotorShield::setM1Speed(int speed)
   }
   if (speed > 400)  // Max PWM dutycycle
     speed = 400;
+  #if defined(__AVR_ATmega8__)|| defined(__AVR_ATmega128__)
   OCR1A = speed;
+  #else
+  analogWrite(_PWM1,speed * 51 / 80); //
+  #endif
   if (reverse)
   {
     digitalWrite(_INA1,LOW);
@@ -97,7 +101,11 @@ void DualVNH5019MotorShield::setM2Speed(int speed)
   }
   if (speed > 400)  // Max 
     speed = 400;
+  #if defined(__AVR_ATmega8__)|| defined(__AVR_ATmega128__)
   OCR1B = speed;
+  #else
+  analogWrite(_PWM2,speed * 51 / 80); //
+  #endif 
   if (reverse)
   {
     digitalWrite(_INA2,LOW);
@@ -129,7 +137,11 @@ void DualVNH5019MotorShield::setM1Brake(int brake)
     brake = 400;
   digitalWrite(_INA1, LOW);
   digitalWrite(_INB1, LOW);
+  #if defined(__AVR_ATmega8__)|| defined(__AVR_ATmega128__)  
   OCR1A = brake;
+  #else
+  analogWrite(_PWM1,brake * 51 / 80);
+  #endif
 }
 
 // Brake motor 2, brake is a number between 0 and 400
@@ -144,7 +156,11 @@ void DualVNH5019MotorShield::setM2Brake(int brake)
     brake = 400;
   digitalWrite(_INA2, LOW);
   digitalWrite(_INB2, LOW);
+  #if defined(__AVR_ATmega8__)|| defined(__AVR_ATmega128__)  
   OCR1B = brake;
+  #else
+  analogWrite(_PWM2,brake * 51 / 80);
+  #endif
 }
 
 // Brake motor 1 and 2, brake is a number between 0 and 400
