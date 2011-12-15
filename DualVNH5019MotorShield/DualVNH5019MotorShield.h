@@ -1,8 +1,7 @@
 #ifndef DualVNH5019MotorShield_h
 #define DualVNH5019MotorShield_h
 
-#include <WProgram.h> // For byte data type
-#include "pins_arduino.h" // Pin definition function for Arduino.
+#include <Arduino.h>
 
 class DualVNH5019MotorShield
 {

@@ -1,5 +1,4 @@
 #include "DualVNH5019MotorShield.h"
-#include "pins_arduino.h"
 
 // Constructors ////////////////////////////////////////////////////////////////
 
