@@ -29,7 +29,8 @@ The demo ramps motor 1 from stopped to full speed forward, ramps down to full sp
 h2. Library Reference
 
 - @DualVNH5019MotorShield()@ := Default constructor, selects the default pins as connected by the motor shield.
-- @DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1, unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2)@ := Alternate constructor for shield connections remapped by user. PWM1 and PWM2 cannot be remapped because the library assumes PWM is on timer1.
+- @DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1,@
+@unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2)@ := Alternate constructor for shield connections remapped by user. PWM1 and PWM2 cannot be remapped because the library assumes PWM is on timer1.
 
 - @void init()@ := Initialize pinModes and timer1.
 
