@@ -76,7 +76,12 @@ void DualVNH5019MotorShield::setM1Speed(int speed)
   #else
   analogWrite(_PWM1,speed * 51 / 80); // default to using analogWrite, mapping 400 to 255
   #endif
-  if (reverse)
+  if (speed == 0)
+  {
+    digitalWrite(_INA1,LOW);   // Make the motor coast no
+    digitalWrite(_INB1,LOW);   // matter which direction it is spinning.
+  }
+  else if (reverse)
   {
     digitalWrite(_INA1,LOW);
     digitalWrite(_INB1,HIGH);
@@ -105,7 +110,12 @@ void DualVNH5019MotorShield::setM2Speed(int speed)
   #else
   analogWrite(_PWM2,speed * 51 / 80); // default to using analogWrite, mapping 400 to 255
   #endif 
-  if (reverse)
+  if (speed == 0)
+  {
+    digitalWrite(_INA1,LOW);   // Make the motor coast no
+    digitalWrite(_INB1,LOW);   // matter which direction it is spinning.
+  }
+  else if (reverse)
   {
     digitalWrite(_INA2,LOW);
     digitalWrite(_INB2,HIGH);
