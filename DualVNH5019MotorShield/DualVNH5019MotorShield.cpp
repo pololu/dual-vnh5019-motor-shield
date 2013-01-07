@@ -112,8 +112,8 @@ void DualVNH5019MotorShield::setM2Speed(int speed)
   #endif 
   if (speed == 0)
   {
-    digitalWrite(_INA1,LOW);   // Make the motor coast no
-    digitalWrite(_INB1,LOW);   // matter which direction it is spinning.
+    digitalWrite(_INA2,LOW);   // Make the motor coast no
+    digitalWrite(_INB2,LOW);   // matter which direction it is spinning.
   }
   else if (reverse)
   {
