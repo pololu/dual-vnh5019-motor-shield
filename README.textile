@@ -50,7 +50,7 @@ h2. Library Reference
 
 h2. Version History
 
-* 1.2.2 (2013-03-18): Add keywords.txt file. Thanks eatonpaul.
+* 1.2.2 (2013-03-18): Add keywords.txt file. Thanks eatonphil.
 * 1.2.0 (2012-12-26): Changes the behavior of the library at speed 0 so that it makes the motor coast regardless of which direction the motor is spinning.
 * 1.1.0 (2011-12-15): Arduino 1.0 compatibility.
 * 1.0.1 (2011-11-07): Adds support for Arduinos not based on ATmega168/328.
