@@ -45,7 +45,7 @@ void DualVNH5019MotorShield::init()
   pinMode(_PWM2,OUTPUT);
   pinMode(_EN2DIAG2,INPUT);
   pinMode(_CS2,INPUT);
-  #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__)
+  #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__) || defined(__AVR_ATmega32U4__)
   // Timer 1 configuration
   // prescaler: clockI/O / 1
   // outputs enabled
@@ -71,7 +71,7 @@ void DualVNH5019MotorShield::setM1Speed(int speed)
   }
   if (speed > 400)  // Max PWM dutycycle
     speed = 400;
-  #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__)
+  #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__) || defined(__AVR_ATmega32U4__)
   OCR1A = speed;
   #else
   analogWrite(_PWM1,speed * 51 / 80); // default to using analogWrite, mapping 400 to 255
@@ -105,7 +105,7 @@ void DualVNH5019MotorShield::setM2Speed(int speed)
   }
   if (speed > 400)  // Max 
     speed = 400;
-  #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__)
+  #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__) || defined(__AVR_ATmega32U4__)
   OCR1B = speed;
   #else
   analogWrite(_PWM2,speed * 51 / 80); // default to using analogWrite, mapping 400 to 255
@@ -146,7 +146,7 @@ void DualVNH5019MotorShield::setM1Brake(int brake)
     brake = 400;
   digitalWrite(_INA1, LOW);
   digitalWrite(_INB1, LOW);
-  #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__)
+  #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__) || defined(__AVR_ATmega32U4__)
   OCR1A = brake;
   #else
   analogWrite(_PWM1,brake * 51 / 80); // default to using analogWrite, mapping 400 to 255
@@ -165,7 +165,7 @@ void DualVNH5019MotorShield::setM2Brake(int brake)
     brake = 400;
   digitalWrite(_INA2, LOW);
   digitalWrite(_INB2, LOW);
-  #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__)
+  #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__) || defined(__AVR_ATmega32U4__)
   OCR1B = brake;
   #else
   analogWrite(_PWM2,brake * 51 / 80); // default to using analogWrite, mapping 400 to 255
