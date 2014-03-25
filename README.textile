@@ -1,22 +1,22 @@
 h1. Arduino library for the Pololu Dual VNH5019 Motor Driver Shield
 
-Version: 1.2.2
-Release Date: 2014-03-18
+Version: 1.2.3
+Release Date: 2014-03-24
 "www.pololu.com":http://www.pololu.com/
 
 h2. Summary
 
-This is a library for the "Arduino":http://www.pololu.com/catalog/product/2191 that interfaces with the Pololu "Dual VNH5019 Motor Driver Shield":http://www.pololu.com/catalog/product/2502. It makes it simple to drive two brushed, DC motors.
+This is a library for the "Arduino":http://www.pololu.com/catalog/product/2191 that interfaces with the Pololu "Dual VNH5019 Motor Driver Shield":http://www.pololu.com/catalog/product/2507. It makes it simple to drive two brushed, DC motors.
 
 h2. Getting Started
 
 h3. Software
 
-Download the archive from "GitHub":https://github.com/pololu/Dual-VNH5019-Motor-Shield, decompress it, and drag the "DualVNH5019MotorShield" folder to your arduino-00xx/libraries directory. Then restart the Arduino environment, so the libraries can be updated to include the library and its examples.
+Download the archive from "GitHub":https://github.com/pololu/Dual-VNH5019-Motor-Shield, decompress it, and move the "DualVNH5019MotorShield" folder into the "libraries" subdirectory inside your Arduino sketchbook directory. You can view your sketchbook location by selecting File->Preferences in the Arduino environment; if there is not already a "libraries" folder in that location, you should create it yourself. After installing the library, restart the Arduino environment so it can find the DualVNH5019MotorShield library and its examples.
 
 h3. Hardware
 
-The Dual VNH5019 Motor Driver Shield can be purchased on "Pololu's website":http://www.pololu.com/catalog/product/2502. See the "motor shield user's guide":http://www.pololu.com/docs/0J49 for more details.
+The Dual VNH5019 Motor Driver Shield can be purchased on "Pololu's website":http://www.pololu.com/catalog/product/2507. See the "motor shield user's guide":http://www.pololu.com/docs/0J49 for more details.
 
 h2. Example Program
 
@@ -50,6 +50,7 @@ h2. Library Reference
 
 h2. Version History
 
+* 1.2.3 (2014-03-24): Added 20 kHz PWM support for ATmega32U4. Thanks blacksound.
 * 1.2.2 (2014-03-18): Add keywords.txt file. Thanks eatonphil.
 * 1.2.1 (2013-01-06): Fixed a bug in setM2Speed that was introduced in 1.2.0.
 * 1.2.0 (2012-12-26): Changes the behavior of the library at speed 0 so that it makes the motor coast regardless of which direction the motor is spinning.
