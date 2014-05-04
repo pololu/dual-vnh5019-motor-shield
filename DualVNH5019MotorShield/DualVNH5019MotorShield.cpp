@@ -175,7 +175,7 @@ void DualVNH5019MotorShield::setM1Speed(int speed)
   }
   if (speed > 400)  // Max PWM dutycycle
     speed = 400;
-	
+    
   if(_PWM1_REG) {
     *_PWM1_REG = speed;                // if the register is set then use the timer
   } else {
