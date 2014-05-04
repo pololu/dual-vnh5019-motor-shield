@@ -18,13 +18,30 @@ DualVNH5019MotorShield::DualVNH5019MotorShield()
 }
 
 DualVNH5019MotorShield::DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, 
-											   unsigned char EN1DIAG1, unsigned char CS1, 
-                                               unsigned char INA2, unsigned char PWM1,
-											   unsigned char INB2, unsigned char EN2DIAG2, 
-											   unsigned char CS2, unsigned char PWM2)
+                                               unsigned char EN1DIAG1, unsigned char CS1, 
+                                               unsigned char INA2, unsigned char INB2, 
+                                               unsigned char EN2DIAG2, unsigned char CS2)
 {
   //Pin map
-  //PWM1 and PWM2 cannot be remapped because the library assumes PWM is on timer1
+  _INA1 = INA1;
+  _INB1 = INB1;
+  _EN1DIAG1 = EN1DIAG1;
+  _CS1 = CS1;
+  _PWM1 = 9;
+  _INA2 = INA2;
+  _INB2 = INB2;
+  _EN2DIAG2 = EN2DIAG2;
+  _CS2 = CS2;
+  _PWM2 = 10;
+}
+
+DualVNH5019MotorShield::DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, 
+                                               unsigned char EN1DIAG1, unsigned char CS1, 
+                                               unsigned char INA2, unsigned char PWM1,
+                                               unsigned char INB2, unsigned char EN2DIAG2, 
+                                               unsigned char CS2, unsigned char PWM2)
+{
+  //Pin map
   _INA1 = INA1;
   _INB1 = INB1;
   _EN1DIAG1 = EN1DIAG1;
@@ -68,16 +85,15 @@ void DualVNH5019MotorShield::init()
   // 16MHz / 1 (prescaler) / 2 (phase-correct) / 400 (top) = 20kHz
   if(_PWM1 == 9 || _PWM1 == 10 || _PWM2 == 9 || _PWM2 == 10)
   {
-	TCCR1A = 0;
+    TCCR1A = 0;
     if(_PWM1 == 9)       { TCCR1A |= _BV(COM1A1); _PWM1_REG = &OCR1A; }
-	else if(_PWM1 == 10) { TCCR1A |= _BV(COM1B1); _PWM1_REG = &OCR1B; }
-	
-	if(_PWM2 == 9)       { TCCR1A |= _BV(COM1A1); _PWM2_REG = &OCR1A; }
-	else if(_PWM2 == 10) { TCCR1A |= _BV(COM1B1); _PWM2_REG = &OCR1B; }
+    else if(_PWM1 == 10) { TCCR1A |= _BV(COM1B1); _PWM1_REG = &OCR1B; }
+    
+    if(_PWM2 == 9)       { TCCR1A |= _BV(COM1A1); _PWM2_REG = &OCR1A; }
+    else if(_PWM2 == 10) { TCCR1A |= _BV(COM1B1); _PWM2_REG = &OCR1B; }
   
-	//TCCR1A = _BV(COM1A1) + _BV(COM1B1);
-	TCCR1B = _BV(WGM13) + _BV(CS10);
-	ICR1 = 400;
+    TCCR1B = _BV(WGM13) | _BV(CS10);
+    ICR1 = 400;
   }
   /* ------------------------------- FOR THE MEGA ------------------------- */
   #elif defined(__AVR_ATmega2560__) 
@@ -85,73 +101,69 @@ void DualVNH5019MotorShield::init()
      _PWM2 == 11 || _PWM2 == 12 || _PWM2 == 13)
   {
     //timer1
-	TCCR1A = 0;
-	if(_PWM1 == 11)      { TCCR1A |= _BV(COM1A1); _PWM1_REG = &OCR1A; }
-	else if(_PWM1 == 12) { TCCR1A |= _BV(COM1B1); _PWM1_REG = &OCR1B; }
-	else if(_PWM1 == 13) { TCCR1A |= _BV(COM1C1); _PWM1_REG = &OCR1C; }
-	
-	if(_PWM2 == 11)      { TCCR1A |= _BV(COM1A1); _PWM2_REG = &OCR1A; }
-	else if(_PWM2 == 12) { TCCR1A |= _BV(COM1B1); _PWM2_REG = &OCR1B; }
-	else if(_PWM2 == 13) { TCCR1A |= _BV(COM1C1); _PWM2_REG = &OCR1C; }
-	
-	//TCCR1A = _BV(COM1A1) + _BV(COM1B1) + _BV(COM1C1);
-    TCCR1B = _BV(WGM13) + _BV(CS10);
+    TCCR1A = 0;
+    if(_PWM1 == 11)      { TCCR1A |= _BV(COM1A1); _PWM1_REG = &OCR1A; }
+    else if(_PWM1 == 12) { TCCR1A |= _BV(COM1B1); _PWM1_REG = &OCR1B; }
+    else if(_PWM1 == 13) { TCCR1A |= _BV(COM1C1); _PWM1_REG = &OCR1C; }
+    
+    if(_PWM2 == 11)      { TCCR1A |= _BV(COM1A1); _PWM2_REG = &OCR1A; }
+    else if(_PWM2 == 12) { TCCR1A |= _BV(COM1B1); _PWM2_REG = &OCR1B; }
+    else if(_PWM2 == 13) { TCCR1A |= _BV(COM1C1); _PWM2_REG = &OCR1C; }
+    
+    TCCR1B = _BV(WGM13) | _BV(CS10);
     ICR1 = 400;
   }
   else if(_PWM1 == 2 || _PWM1 == 3 || _PWM1 == 5 || 
           _PWM2 == 2 || _PWM2 == 3 || _PWM2 == 5)
   {
     //timer3
-	TCCR3A = 0;
-	if(_PWM1 == 5)      { TCCR3A |= _BV(COM3A1); _PWM1_REG = &OCR3A; }
-	else if(_PWM1 == 2) { TCCR3A |= _BV(COM3B1); _PWM1_REG = &OCR3B; }
-	else if(_PWM1 == 3) { TCCR3A |= _BV(COM3C1); _PWM1_REG = &OCR3C; }
-	
-	if(_PWM2 == 5)      { TCCR3A |= _BV(COM3A1); _PWM2_REG = &OCR3A; }
-	else if(_PWM2 == 2) { TCCR3A |= _BV(COM3B1); _PWM2_REG = &OCR3B; }
-	else if(_PWM2 == 3) { TCCR3A |= _BV(COM3C1); _PWM2_REG = &OCR3C; }
-	
-	//TCCR3A = _BV(COM3A1) + _BV(COM3B1) + _BV(COM3C1);
-    TCCR3B = _BV(WGM33) + _BV(CS30);
+    TCCR3A = 0;
+    if(_PWM1 == 5)      { TCCR3A |= _BV(COM3A1); _PWM1_REG = &OCR3A; }
+    else if(_PWM1 == 2) { TCCR3A |= _BV(COM3B1); _PWM1_REG = &OCR3B; }
+    else if(_PWM1 == 3) { TCCR3A |= _BV(COM3C1); _PWM1_REG = &OCR3C; }
+    
+    if(_PWM2 == 5)      { TCCR3A |= _BV(COM3A1); _PWM2_REG = &OCR3A; }
+    else if(_PWM2 == 2) { TCCR3A |= _BV(COM3B1); _PWM2_REG = &OCR3B; }
+    else if(_PWM2 == 3) { TCCR3A |= _BV(COM3C1); _PWM2_REG = &OCR3C; }
+    
+    TCCR3B = _BV(WGM33) | _BV(CS30);
     ICR3 = 400;
   }
   else if(_PWM1 == 6 || _PWM1 == 7 || _PWM1 == 8 || 
           _PWM2 == 6 || _PWM2 == 7 || _PWM2 == 8)
   {
     //timer4  
-	TCCR4A = 0;
-	if(_PWM1 == 6)      { TCCR4A |= _BV(COM4A1); _PWM1_REG = &OCR4A; }
-	else if(_PWM1 == 7) { TCCR4A |= _BV(COM4B1); _PWM1_REG = &OCR4B; }
-	else if(_PWM1 == 8) { TCCR4A |= _BV(COM4C1); _PWM1_REG = &OCR4C; }
-	
-	if(_PWM2 == 6)      { TCCR4A |= _BV(COM4A1); _PWM2_REG = &OCR4A; }
-	else if(_PWM2 == 7) { TCCR4A |= _BV(COM4B1); _PWM2_REG = &OCR4B; }
-	else if(_PWM2 == 8) { TCCR4A |= _BV(COM4C1); _PWM2_REG = &OCR4C; }
-	
-	//TCCR4A = _BV(COM4A1) + _BV(COM4B1) + _BV(COM4C1);
-    TCCR4B = _BV(WGM43) + _BV(CS40);
+    TCCR4A = 0;
+    if(_PWM1 == 6)      { TCCR4A |= _BV(COM4A1); _PWM1_REG = &OCR4A; }
+    else if(_PWM1 == 7) { TCCR4A |= _BV(COM4B1); _PWM1_REG = &OCR4B; }
+    else if(_PWM1 == 8) { TCCR4A |= _BV(COM4C1); _PWM1_REG = &OCR4C; }
+    
+    if(_PWM2 == 6)      { TCCR4A |= _BV(COM4A1); _PWM2_REG = &OCR4A; }
+    else if(_PWM2 == 7) { TCCR4A |= _BV(COM4B1); _PWM2_REG = &OCR4B; }
+    else if(_PWM2 == 8) { TCCR4A |= _BV(COM4C1); _PWM2_REG = &OCR4C; }
+    
+    TCCR4B = _BV(WGM43) | _BV(CS40);
     ICR4 = 400;
   }  
   else if(_PWM1 == 44 || _PWM1 == 45 || _PWM1 == 46 || 
           _PWM2 == 44 || _PWM2 == 45 || _PWM2 == 46)
   {
-	//timer5
-	TCCR5A = 0;
-	if(_PWM1 == 46)      { TCCR5A |= _BV(COM5A1); _PWM1_REG = &OCR5A; }
-	else if(_PWM1 == 45) { TCCR5A |= _BV(COM5B1); _PWM1_REG = &OCR5B; }
-	else if(_PWM1 == 44) { TCCR5A |= _BV(COM5C1); _PWM1_REG = &OCR5C; }
-	
-	if(_PWM2 == 46)      { TCCR5A |= _BV(COM5A1); _PWM2_REG = &OCR5A; }
-	else if(_PWM2 == 45) { TCCR5A |= _BV(COM5B1); _PWM2_REG = &OCR5B; }
-	else if(_PWM2 == 44) { TCCR5A |= _BV(COM5C1); _PWM2_REG = &OCR5C; }
-	
-	//TCCR5A = _BV(COM5A1) + _BV(COM5B1)51/ + _BV(COM5C1);
-    TCCR5B = _BV(WGM53) + _BV(CS50);
+    //timer5
+    TCCR5A = 0;
+    if(_PWM1 == 46)      { TCCR5A |= _BV(COM5A1); _PWM1_REG = &OCR5A; }
+    else if(_PWM1 == 45) { TCCR5A |= _BV(COM5B1); _PWM1_REG = &OCR5B; }
+    else if(_PWM1 == 44) { TCCR5A |= _BV(COM5C1); _PWM1_REG = &OCR5C; }
+    
+    if(_PWM2 == 46)      { TCCR5A |= _BV(COM5A1); _PWM2_REG = &OCR5A; }
+    else if(_PWM2 == 45) { TCCR5A |= _BV(COM5B1); _PWM2_REG = &OCR5B; }
+    else if(_PWM2 == 44) { TCCR5A |= _BV(COM5C1); _PWM2_REG = &OCR5C; }
+    
+    TCCR5B = _BV(WGM53) | _BV(CS50);
     ICR5 = 400;
   }
   #endif
 }
-// Set speed for motor 1, speed is a number betwenn -400 and 400
+// Set speed for motor 1, speed is a number between -400 and 400
 void DualVNH5019MotorShield::setM1Speed(int speed)
 {
   unsigned char reverse = 0;
@@ -163,10 +175,11 @@ void DualVNH5019MotorShield::setM1Speed(int speed)
   }
   if (speed > 400)  // Max PWM dutycycle
     speed = 400;
+	
   if(_PWM1_REG) {
-	*_PWM1_REG = speed; // if the register is set then use the timers
+    *_PWM1_REG = speed;                // if the register is set then use the timer
   } else {
-	analogWrite(_PWM1,speed * 0.6375); // default to using analogWrite, mapping 400 to 255
+    analogWrite(_PWM1,speed * 51/80); // default to using analogWrite, mapping 400 to 255
   }
 
   if (speed == 0)
@@ -200,11 +213,11 @@ void DualVNH5019MotorShield::setM2Speed(int speed)
     speed = 400;
 
   if(_PWM2_REG) {
-	*_PWM2_REG = speed; // if the register is set then use the timers
+    *_PWM2_REG = speed;                // if the register is set then use the timer
   } else {
-	analogWrite(_PWM1,speed * 0.6375); // default to using analogWrite, mapping 400 to 255
+    analogWrite(_PWM1,speed * 51/80); // default to using analogWrite, mapping 400 to 255
   }
-	
+    
   if (speed == 0)
   {
     digitalWrite(_INA2,LOW);   // Make the motor coast no
@@ -242,9 +255,9 @@ void DualVNH5019MotorShield::setM1Brake(int brake)
   digitalWrite(_INA1, LOW);
   digitalWrite(_INB1, LOW);
   if(_PWM1_REG) {
-	*_PWM1_REG = brake; // if the register is set then use the timers
+    *_PWM1_REG = brake;                // if the register is set then use the timer
   } else {
-	analogWrite(_PWM1,brake * 0.6375); // default to using analogWrite, mapping 400 to 255
+    analogWrite(_PWM1,brake * 51/80); // default to using analogWrite, mapping 400 to 255
   }
 }
 
@@ -261,9 +274,9 @@ void DualVNH5019MotorShield::setM2Brake(int brake)
   digitalWrite(_INA2, LOW);
   digitalWrite(_INB2, LOW);
   if(_PWM1_REG) {
-	*_PWM1_REG = brake; // if the register is set then use the timers
+    *_PWM1_REG = brake;                // if the register is set then use the timer
   } else {
-	analogWrite(_PWM1,brake * 0.6375); // default to using analogWrite, mapping 400 to 255
+    analogWrite(_PWM1,brake * 51/80); // default to using analogWrite, mapping 400 to 255
   }
 }
 
