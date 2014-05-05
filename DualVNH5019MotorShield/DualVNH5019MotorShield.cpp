@@ -37,7 +37,7 @@ DualVNH5019MotorShield::DualVNH5019MotorShield(unsigned char INA1, unsigned char
 
 DualVNH5019MotorShield::DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, 
                                                unsigned char EN1DIAG1, unsigned char CS1, 
-                                               unsigned char INA2, unsigned char PWM1,
+                                               unsigned char PWM1, unsigned char INA2,
                                                unsigned char INB2, unsigned char EN2DIAG2, 
                                                unsigned char CS2, unsigned char PWM2)
 {
