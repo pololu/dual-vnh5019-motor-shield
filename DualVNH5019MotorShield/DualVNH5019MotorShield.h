@@ -12,7 +12,8 @@ class DualVNH5019MotorShield
                            unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2); // User-defined pin selection. 
     
     // PUBLIC METHODS
-    void init(); // Initialize TIMER 1, set the PWM to 20kHZ. 
+    void init(); // Initialize TIMER 1, set the PWM to 20kHZ.
+    void stopIfFault(); // stop if fault declaration
     void setM1Speed(int speed); // Set speed for M1.
     void setM2Speed(int speed); // Set speed for M2.
     void setSpeeds(int m1Speed, int m2Speed); // Set speed for both M1 and M2.

@@ -204,3 +204,18 @@ unsigned char DualVNH5019MotorShield::getM2Fault()
 {
   return !digitalRead(_EN2DIAG2);
 }
+
+//serial alert if motor fault
+void DualVNH5019MotorShield::stopIfFault()
+{
+  if (getM1Fault())
+  {
+    Serial.println("M1 fault");
+    while(1);
+  }
+  if (getM2Fault())
+  {
+    Serial.println("M2 fault");
+    while(1);
+  }
+}
