@@ -11,3 +11,4 @@ getM1CurrentMilliamps	KEYWORD2
 getM2CurrentMilliamps	KEYWORD2
 getM1Fault	KEYWORD2
 getM2Fault	KEYWORD2
+stopIfFault KEYWORD2
