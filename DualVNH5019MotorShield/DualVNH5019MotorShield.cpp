@@ -206,14 +206,14 @@ unsigned char DualVNH5019MotorShield::getM2Fault()
 }
 
 //serial alert if motor fault
-void stopIfFault()
+void DualVNH5019MotorShield::stopIfFault()
 {
-  if (md.getM1Fault())
+  if (getM1Fault())
   {
     Serial.println("M1 fault");
     while(1);
   }
-  if (md.getM2Fault())
+  if (getM2Fault())
   {
     Serial.println("M2 fault");
     while(1);
