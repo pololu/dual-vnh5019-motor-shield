@@ -1,59 +1,49 @@
-h1. Arduino library for the Pololu Dual VNH5019 Motor Driver Shield
+h1. Arduino library for the Arduino Motor Driver Shield R3
 
-Version: 1.2.3
-Release Date: 2014-03-24
-"www.pololu.com":http://www.pololu.com/
+Version: 1.0.0
+Release Date: 2015-04-22
+"http://www.arduino.cc/en/Main/ArduinoMotorShieldR3":http://www.arduino.cc/en/Main/ArduinoMotorShieldR3
 
 h2. Summary
 
-This is a library for the "Arduino":http://www.pololu.com/catalog/product/2191 that interfaces with the Pololu "Dual VNH5019 Motor Driver Shield":http://www.pololu.com/catalog/product/2507. It makes it simple to drive two brushed, DC motors.
+This is a library for the "Arduino":http://www.arduino.cc that interfaces with the "Arduino Motor Driver Shield R3":http://www.arduino.cc/en/Main/ArduinoMotorShieldR3. It makes it simple to drive two brushed, DC motors.
 
 h2. Getting Started
 
 h3. Software
 
-Download the archive from "GitHub":https://github.com/pololu/Dual-VNH5019-Motor-Shield, decompress it, and move the "DualVNH5019MotorShield" folder into the "libraries" subdirectory inside your Arduino sketchbook directory. You can view your sketchbook location by selecting File->Preferences in the Arduino environment; if there is not already a "libraries" folder in that location, you should create it yourself. After installing the library, restart the Arduino environment so it can find the DualVNH5019MotorShield library and its examples.
+Download the archive from GitHub, decompress it, and move the "ArduinoMotorShieldR3" folder into the "libraries" subdirectory inside your Arduino sketchbook directory. You can view your sketchbook location by selecting File->Preferences in the Arduino environment; if there is not already a "libraries" folder in that location, you should create it yourself. After installing the library, restart the Arduino environment so it can find the ArduinoMotorShieldR3 library and its examples.
 
 h3. Hardware
 
-The Dual VNH5019 Motor Driver Shield can be purchased on "Pololu's website":http://www.pololu.com/catalog/product/2507. See the "motor shield user's guide":http://www.pololu.com/docs/0J49 for more details.
+The Arduino Motor Driver Shield R3 can be purchased on "Arduino's website":http://www.arduino.cc/en/Main/ArduinoMotorShieldR3. See the "motor shield user's guide":http://www.arduino.cc/en/Main/ArduinoMotorShieldR3 for more details.
 
 h2. Example Program
 
 h3. Demo
 
-Open this example code sketch by selecting File->Examples->DualVNH5019MotorShield->Demo.
+Open this example code sketch by selecting File->Examples->ArduinoMotorShieldR3->Demo.
 
-The demo ramps motor 1 from stopped to full speed forward, ramps down to full speed reverse, and back to stopped. Then, it does the same with the other motor. Both motor's current readings are sent over serial and can be seen with the serial monitor. If a fault is detected, a message is sent over serial.
+The demo runs both motors forward, then backward at 100%, then 50% speed.  Both motor's current readings are sent over serial and can be seen with the serial monitor.
 
 h2. Library Reference
 
-- @DualVNH5019MotorShield()@ := Default constructor, selects the default pins as connected by the motor shield.
-- @DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1,@
-@unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2)@ := Alternate constructor for shield connections remapped by user. PWM1 and PWM2 cannot be remapped because the library assumes PWM is on timer1.
+- @ArduinoMotorShieldR3()@ := Default constructor, selects the default pins as connected by the motor shield.
+- @ArduinoMotorShieldR3unsigned char DIR_A, unsigned char BRK_A, unsigned char PWM_A, unsigned char CS_A, unsigned char DIR_B, unsigned char BRK_B, unsigned char PWM_B, unsigned char CS_B)@ := Alternate constructor for shield connections remapped by user.
 
-- @void init()@ := Initialize pinModes and timer1.
+- @void init()@ := Initialize pinModes.
 
-- @void setM1Speed(int speed)@ := Set speed and direction for motor 1. Speed should be between -400 and 400. 400 corresponds to motor current flowing from M1A to M1B. -400 corresponds to motor current flowing from M1B to M1A.  0 corresponds to full coast.
-- @void setM2Speed(int speed)@ := Set speed and direction for motor 2. Speed should be between -400 and 400. 400 corresponds to motor current flowing from M2A to M2B. -400 corresponds to motor current flowing from M2B to M2A.  0 corresponds to full coast.
+- @void setM1Speed(int speed)@ := Set speed and direction for motor 1. Speed should be between -400 and 400.
+- @void setM2Speed(int speed)@ := Set speed and direction for motor 2. Speed should be between -400 and 400.
 - @void setSpeeds(int m1Speed, int m2Speed)@ := Set speed and direction for motor 1 and 2. 
 
-- @void setM1Brake(int brake)@ := Set brake for motor 1. Brake should be between 0 and 400. 0 corresponds to full coast, and 400 corresponds to full brake.
-- @void setM2Brake(int brake)@ := Set brake for motor 2. Brake should be between 0 and 400. 0 corresponds to full coast, and 400 corresponds to full brake.
-- @void setBrakes(int m1Brake, int m2Brake)@ := Set brake for motor 1 and 2.
+- @void setM1Brake()@ := Set brake for motor 1. 
+- @void setM2Brake()@ := Set brake for motor 2. 
+- @void setBrakes()@ := Set brake for motor 1 and 2.
 
 - @unsigned int getM1CurrentMilliamps()@ := Returns current reading from motor 1 in milliamps.
 - @unsigned int getM2CurrentMilliamps()@ := Returns current reading from motor 2 in milliamps.
 
-- @unsigned char getM1Fault()@ := Returns 1 if there is a fault on motor driver 1, 0 if no fault.
-- @unsigned char getM2Fault()@ := Returns 1 if there is a fault on motor driver 2, 0 if no fault.
-
 h2. Version History
 
-* 1.2.3 (2014-03-24): Added 20 kHz PWM support for ATmega32U4. Thanks blacksound.
-* 1.2.2 (2014-03-18): Add keywords.txt file. Thanks eatonphil.
-* 1.2.1 (2013-01-06): Fixed a bug in setM2Speed that was introduced in 1.2.0.
-* 1.2.0 (2012-12-26): Changes the behavior of the library at speed 0 so that it makes the motor coast regardless of which direction the motor is spinning.
-* 1.1.0 (2011-12-15): Arduino 1.0 compatibility.
-* 1.0.1 (2011-11-07): Adds support for Arduinos not based on ATmega168/328.
-* 1.0.0 (2011-10-28): Original release.
+* 1.0.0 (2015-04-2): Forked from https://github.com/pololu/dual-vnh5019-motor-shield

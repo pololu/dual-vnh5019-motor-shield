@@ -1,4 +1,4 @@
-DualVNH5019MotorShield	KEYWORD1
+ArduinoMotorShieldR3	KEYWORD1
 
 init	KEYWORD2
 setM1Speed	KEYWORD2
