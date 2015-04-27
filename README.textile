@@ -19,6 +19,7 @@ h3. Hardware
 The Dual VNH5019 Motor Driver Shield can be purchased on "Pololu's website":http://www.pololu.com/catalog/product/2507. See the "motor shield user's guide":http://www.pololu.com/docs/0J49 for more details.
 * if using other libraries (like the servo library), you need cut and move the PWM pins on the shield
 ** for use with the Uno, for best results avoid using pins 9,10 for PWM
+** use with the Arduino Mega avoid using pins 9, 10, 44, 45, or 46 for PWM
 ** information on how to move the pins used by the pololu DualVNH5019MotorShield See the "motor shield user's guide":http://www.pololu.com/docs/0J49 for details
 
 h2. Example Program
