@@ -16,4 +16,4 @@ install:
  - pip install -U platformio
 
 script:
- - platformio ci --lib="DualVNH5019MotorShield" --board=uno --board=megaatmega2560
+ - platformio ci --lib="DualVNH5019MotorShield" --board=uno --board=leonardo --board=megaatmega2560 --board=due
