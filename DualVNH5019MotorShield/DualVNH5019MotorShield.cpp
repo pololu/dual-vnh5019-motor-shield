@@ -37,12 +37,10 @@ void DualVNH5019MotorShield::init()
 
   pinMode(_INA1,OUTPUT);
   pinMode(_INB1,OUTPUT);
-  pinMode(_PWM1,OUTPUT);
   pinMode(_EN1DIAG1,INPUT);
   pinMode(_CS1,INPUT);
   pinMode(_INA2,OUTPUT);
   pinMode(_INB2,OUTPUT);
-  pinMode(_PWM2,OUTPUT);
   pinMode(_EN2DIAG2,INPUT);
   pinMode(_CS2,INPUT);
   #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__) || defined(__AVR_ATmega32U4__)
