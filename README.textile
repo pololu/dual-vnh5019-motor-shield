@@ -1,7 +1,7 @@
 h1. Arduino library for the Pololu Dual VNH5019 Motor Driver Shield
 
-Version: 1.2.3
-Release Date: 2014-03-24
+Version: 1.2.4
+Release Date: 2016-08-10
 !https://travis-ci.org/pololu/dual-vnh5019-motor-shield.svg?branch=master!:https://travis-ci.org/pololu/dual-vnh5019-motor-shield
 "www.pololu.com":http://www.pololu.com/
 
@@ -50,7 +50,7 @@ h2. Library Reference
 - @unsigned char getM2Fault()@ := Returns 1 if there is a fault on motor driver 2, 0 if no fault.
 
 h2. Version History
-
+* 1.2.4 (2016-08-10): Added continuous integration testing. Thanks photodude.
 * 1.2.3 (2014-03-24): Added 20 kHz PWM support for ATmega32U4. Thanks blacksound.
 * 1.2.2 (2014-03-18): Add keywords.txt file. Thanks eatonphil.
 * 1.2.1 (2013-01-06): Fixed a bug in setM2Speed that was introduced in 1.2.0.
