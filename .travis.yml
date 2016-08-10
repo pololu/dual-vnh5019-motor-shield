@@ -1,17 +1,20 @@
 language: python
-python:
- - "2.7"
 
-sudo: false
 cache:
- directories:
+  directories:
   - "~/.platformio"
 
-env:
- - PLATFORMIO_CI_SRC=DualVNH5019MotorShield/examples/Demo/Demo.ino
-
 install:
- - pip install -U platformio
+- pip install -U platformio
+
+env:
+- BOARD=uno
+- BOARD=leonardo
+- BOARD=megaatmega2560
+- BOARD=due
 
 script:
- - platformio ci --lib="DualVNH5019MotorShield" --board=uno --board=leonardo --board=megaatmega2560 --board=due
+- cd DualVNH5019MotorShield
+- for e in $(find examples -name \*.ino); do
+    platformio ci --board=$BOARD --lib=. $e;
+  done
