@@ -2,6 +2,7 @@ h1. Arduino library for the Pololu Dual VNH5019 Motor Driver Shield
 
 Version: 1.2.3
 Release Date: 2014-03-24
+!https://travis-ci.org/pololu/dual-vnh5019-motor-shield.svg?branch=master!:https://travis-ci.org/pololu/dual-vnh5019-motor-shield
 "www.pololu.com":http://www.pololu.com/
 
 h2. Summary
