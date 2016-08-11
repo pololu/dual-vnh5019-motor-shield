@@ -15,6 +15,6 @@ env:
 
 script:
 - cd DualVNH5019MotorShield
-- for e in $(find examples -name \*.ino); do
-    platformio ci --board=$BOARD --lib=. $e;
+- for e in examples/*; do
+    platformio ci --board=$BOARD --lib=. $e/*;
   done
