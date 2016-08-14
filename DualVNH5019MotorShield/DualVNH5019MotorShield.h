@@ -9,7 +9,13 @@ class DualVNH5019MotorShield
     // CONSTRUCTORS
     DualVNH5019MotorShield(); // Default pin selection.
     DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1, 
-                           unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2); // User-defined pin selection. 
+                           unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2); //User-defined pin selection. 
+                           
+    DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, 
+                           unsigned char EN1DIAG1, unsigned char CS1, 
+                           unsigned char PWM1, unsigned char INA2,
+                           unsigned char INB2, unsigned char EN2DIAG2, 
+                           unsigned char CS2, unsigned char PWM2); // User-defined pin selection, with PWM pins
     
     // PUBLIC METHODS
     void init(); // Initialize TIMER 1, set the PWM to 20kHZ. 
@@ -27,14 +33,16 @@ class DualVNH5019MotorShield
   private:
     unsigned char _INA1;
     unsigned char _INB1;
-    static const unsigned char _PWM1 = 9;
+    unsigned char _PWM1;
     unsigned char _EN1DIAG1;
     unsigned char _CS1;
     unsigned char _INA2;
     unsigned char _INB2;
-    static const unsigned char _PWM2 = 10;
+    unsigned char _PWM2;
     unsigned char _EN2DIAG2;
     unsigned char _CS2;
+    volatile uint16_t* _PWM1_REG;
+    volatile uint16_t* _PWM2_REG;
     
 };
 

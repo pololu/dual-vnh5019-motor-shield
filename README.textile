@@ -32,8 +32,9 @@ h2. Library Reference
 - @DualVNH5019MotorShield()@ := Default constructor, selects the default pins as connected by the motor shield.
 - @DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1,@
 @unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2)@ := Alternate constructor for shield connections remapped by user. PWM1 and PWM2 cannot be remapped because the library assumes PWM is on timer1.
+- @DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1, unsigned char PWM1, unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2, unsigned char PWM2)@ := Alternate constructor for shield connections remapped by user. Choice of PWM pins depend on whether 16-bit timers will be used or regular 8-bit analogWrite will be used.
 
-- @void init()@ := Initialize pinModes and timer1.
+- @void init()@ := Initialize pinModes and any timers that will be used (timer1 by default).
 
 - @void setM1Speed(int speed)@ := Set speed and direction for motor 1. Speed should be between -400 and 400. 400 corresponds to motor current flowing from M1A to M1B. -400 corresponds to motor current flowing from M1B to M1A.  0 corresponds to full coast.
 - @void setM2Speed(int speed)@ := Set speed and direction for motor 2. Speed should be between -400 and 400. 400 corresponds to motor current flowing from M2A to M2B. -400 corresponds to motor current flowing from M2B to M2A.  0 corresponds to full coast.
