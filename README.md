@@ -74,38 +74,38 @@ detected, a message is sent over serial.
 
 ## Documentation
 
-- `DualVNH5019MotorShield()` Default constructor, selects the default
-  pins as connected by the motor shield.
-- `DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1, unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2)`
+- `DualVNH5019MotorShield()`<br> Default constructor, selects the
+  default pins as connected by the motor shield.
+- `DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1, unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2)` <br>
   Alternate constructor for shield connections remapped by user. PWM1
   and PWM2 cannot be remapped because the library assumes PWM is on
   timer1.
-- `void init()` Initialize pinModes and timer1.
-- `void setM1Speed(int speed)` Set speed and direction for motor 1.
+- `void init()` <br> Initialize pinModes and timer1.
+- `void setM1Speed(int speed)` <br> Set speed and direction for motor 1.
   Speed should be between -400 and 400.  400 corresponds to motor
   current flowing from M1A to M1B.  -400 corresponds to motor current
   flowing from M1B to M1A.  0 corresponds to full coast.
-- `void setM2Speed(int speed)` Set speed and direction for motor 2.
+- `void setM2Speed(int speed)` <br> Set speed and direction for motor 2.
   Speed should be between -400 and 400.  400 corresponds to motor
   current flowing from M2A to M2B.  -400 corresponds to motor current
   flowing from M2B to M2A.  0 corresponds to full coast.
-- `void setSpeeds(int m1Speed, int m2Speed)` Set speed and direction
+- `void setSpeeds(int m1Speed, int m2Speed)` <br> Set speed and direction
   for motor 1 and 2.
-- `void setM1Brake(int brake)` Set brake for motor 1.  Brake should be
+- `void setM1Brake(int brake)` <br> Set brake for motor 1.  Brake should be
   between 0 and 400.  0 corresponds to full coast, and 400 corresponds
   to full brake.
-- `void setM2Brake(int brake)` Set brake for motor 2.  Brake should be
+- `void setM2Brake(int brake)` <br> Set brake for motor 2.  Brake should be
   between 0 and 400.  0 corresponds to full coast, and 400 corresponds
   to full brake.
-- `void setBrakes(int m1Brake, int m2Brake)`Set brake for motor 1 and
+- `void setBrakes(int m1Brake, int m2Brake)` <br> Set brake for motor 1 and
   2.
-- `unsigned int getM1CurrentMilliamps()` Returns current reading from
+- `unsigned int getM1CurrentMilliamps()` <br> Returns current reading from
   motor 1 in milliamps.
-- `unsigned int getM2CurrentMilliamps()` Returns current reading from
+- `unsigned int getM2CurrentMilliamps()` <br> Returns current reading from
   motor 2 in milliamps.
-- `unsigned char getM1Fault()` Returns 1 if there is a fault on motor
+- `unsigned char getM1Fault()` <br> Returns 1 if there is a fault on motor
   driver 1, 0 if no fault.
-- `unsigned char getM2Fault()` Returns 1 if there is a fault on motor
+- `unsigned char getM2Fault()` <br> Returns 1 if there is a fault on motor
   driver 2, 0 if no fault.
 
 ## Version history
