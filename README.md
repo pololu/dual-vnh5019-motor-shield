@@ -109,7 +109,7 @@ detected, a message is sent over serial.
   driver 2, 0 if no fault.
 
 ## Version history
-* 2.0.0 (2016-08-16): Updated library to work with the Arduino Library manager
+* 2.0.0 (2016-08-16): Updated library to work with the Arduino Library manager.
 * 1.2.4 (2016-08-10): Added continuous integration testing. Thanks photodude.
 * 1.2.3 (2014-03-24): Added 20 kHz PWM support for ATmega32U4. Thanks blacksound.
 * 1.2.2 (2014-03-18): Add keywords.txt file. Thanks eatonphil.
