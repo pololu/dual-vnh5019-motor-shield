@@ -68,7 +68,7 @@ incorrectly and you should retry the installation instructions above.
 
 The demo ramps motor 1 from stopped to full speed forward, ramps down
 to full speed reverse, and back to stopped.  Then, it does the same
-with the other motor.  Both motor's current readings are sent over
+with the other motor.  Current readings for each motor are sent over
 serial and can be seen with the serial monitor.  If a fault is
 detected, a message is sent over serial.
 
