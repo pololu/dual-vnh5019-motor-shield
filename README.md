@@ -3,7 +3,7 @@
 Version: 2.0.0<br>
 Release Date: 2016-08-16<br>
 [![Build Status](https://travis-ci.org/pololu/dual-vnh5019-motor-shield.svg?branch=master)](https://travis-ci.org/pololu/dual-vnh5019-motor-shield)<br>
-"www.pololu.com":https://www.pololu.com/<br>
+[www.pololu.com](https://www.pololu.com/)
 
 ## Summary
 
@@ -24,7 +24,7 @@ should support any Arduino-compatible board, including the
 
 The
 [Dual VNH5019 Motor Driver Shield](https://www.pololu.com/product/2507)
-can be purchase from Pololu's website.  Before continuing, careful
+can be purchased from Pololu's website.  Before continuing, careful
 reading of the product page as well as the
 [product user's guide](https://www.pololu.com/docs/0J49) is
 recommended.
@@ -76,7 +76,7 @@ detected, a message is sent over serial.
 
 - `DualVNH5019MotorShield()` Default constructor, selects the default
   pins as connected by the motor shield.
-- `DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1,@ @unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2)`
+- `DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1, unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2)`
   Alternate constructor for shield connections remapped by user. PWM1
   and PWM2 cannot be remapped because the library assumes PWM is on
   timer1.
