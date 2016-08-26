@@ -126,6 +126,42 @@ and GND.  To make `getM1CurrentMilliamps` work well, you would add the
 capacitor between M1CS and GND.  To make `getM2CurrentMilliamps` work
 well, you would add the capacitor between M2CS and GND.
 
+### Notes about timers:
+
+-   Timer0 is used by the functions millis(), delay(), micros() and delayMicroseconds(),
+-   Timer1 is used by the servo.h library on Arduino Uno
+-   Timer5 is used by the servo library on Arduino Mega
+-   the Servo library uses timers and interrupts
+    -   you can’t use the pwm pins used for servo timers
+    -   UNO: when you use the Servo Library you can’t use PWM on Pin 9, 10
+    -   MEGA: it is a bit more difficult
+        -   For the first 12 servos timer 5 will be used (losing PWM on Pins 44,45,46)
+        -   for 13-24 servos timer 5 and 1 will be used (losing PWM on Pins 11,12,44,45,46)
+        -   for 25-36 servos timer 5, 1 and 3 will be used (losing PWM on Pins 2,3,5,11,12,44,45,46)
+        -   For 37-48 servos all 16bit timers 5,1,3 and 4 will be used (losing all PWM pins).
+-   timers for PWM underwrite the function analogWrite(). Manually setting up a timer will/may stop analogWrite() from working
+    -   You can obtain more control than the analogWrite function provides By manipulating the chip’s timer registers directly (note this is very advanced).
+    -   The PWM outputs generated on pins 5, 6 (uno) or Pins 4, 13 (mega) will have higher-than-expected duty cycles. This is because of interactions with the millis() and delay() functions, which share the same internal timer used to generate those PWM outputs. This will be noticed mostly on low duty-cycle settings (e.g 0 - 10) and may result in a value of 0 not fully turning off the output on pins 5, 6 (Uno) or pins 4,13 (mega).
+-   on the Uno Pin 11 has shared functionality PWM and MOSI. MOSI is needed for the SPI interface, so you can’t use PWM on Pin 11 and the SPI interface at the same time.
+    -   on the MEGA SPI related pins are 50 (MISO), 51 (MOSI), 52 (SCK), 53 (SS) so no conflict exists
+-   the tone(), notone() functions uses timer2,
+-   Timer 2 has a different set of prescale values from the other timers,
+-   Timer 0 and 2 are 8bit timers while timer 1, 3, 4, and 5 are 16 bit timers;
+-   Timer 3,4,5 are only available on Arduino Mega boards,
+-   The digitalWrite() function turns off PWM output if called on a timer pin
+-   The Uno has 3 Timers and 6 PWM output pins 3, 5, 6, 9, 10, and 11
+    -   timer 0 —– Pins 5, 6 (time functions like millis(), and delay() )
+    -   timer 1 —– Pins 9, 10 (servo library)
+    -   timer 2 —– Pins 11, 3
+-   The Arduino Mega has 6 timers and 15 PWM outputs pins 2 to 13 and 44 to 46
+    -   timer 0 —– pin 4, 13 (time functions like millis(), and delay() )
+    -   timer 1 —– pin 11, 12
+    -   timer 2 —– pin 9, 10 (tone(), notone() functions)
+    -   timer 3 —– pin 2, 3, 5
+    -   timer 4 —– pin 6, 7, 8
+    -   timer 5 —– pin 44, 45, 46 (servo library)
+-   [You can manually implement a sudo PWM on any pin by repeatedly turning the pin on and off for the desired times](http://www.arduino.cc/en/Tutorial/SecretsOfArduinoPWM)
+
 ## Version history
 * 2.0.0 (2016-08-16): Updated library to work with the Arduino Library Manager.
 * 1.2.4 (2016-08-10): Added continuous integration testing. Thanks photodude.
