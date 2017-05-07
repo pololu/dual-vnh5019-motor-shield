@@ -80,7 +80,10 @@ detected, a message is sent over serial.
   Alternate constructor for shield connections remapped by user. PWM1
   and PWM2 cannot be remapped because the library assumes PWM is on
   timer1.
-- `void init()` <br> Initialize pinModes and timer1.
+- `DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1, unsigned char PWM1, unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2, unsigned char PWM2)` <br>
+  Alternate constructor for shield connections remapped by user.
+  Choice of PWM pins depend on whether 16-bit timers will be used or regular 8-bit analogWrite will be used.
+- `void init()` <br> Initialize pinModes and any timers that will be used.
 - `void setM1Speed(int speed)` <br> Set speed and direction for motor 1.
   Speed should be between -400 and 400.  400 corresponds to motor
   current flowing from M1A to M1B.  -400 corresponds to motor current
@@ -127,6 +130,7 @@ capacitor between M1CS and GND.  To make `getM2CurrentMilliamps` work
 well, you would add the capacitor between M2CS and GND.
 
 ## Version history
+* 2.1.0 (2017-05-07): Added support for ATmega2560 with support for use of any PWM pins, a 16-bit timer used if possible.
 * 2.0.0 (2016-08-16): Updated library to work with the Arduino Library Manager.
 * 1.2.4 (2016-08-10): Added continuous integration testing. Thanks photodude.
 * 1.2.3 (2014-03-24): Added 20 kHz PWM support for ATmega32U4. Thanks blacksound.
