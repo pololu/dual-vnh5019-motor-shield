@@ -83,7 +83,7 @@ detected, a message is sent over serial.
 - `DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1, unsigned char PWM1, unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2, unsigned char PWM2)` <br>
   Alternate constructor for shield connections remapped by user.
   Choice of PWM pins depend on whether 16-bit timers will be used or regular 8-bit analogWrite will be used.
-- `void init()` <br> Initialize pinModes and any timers that will be used.
+- `void init()` <br> Initialize pinModes and timers1.
 - `void setM1Speed(int speed)` <br> Set speed and direction for motor 1.
   Speed should be between -400 and 400.  400 corresponds to motor
   current flowing from M1A to M1B.  -400 corresponds to motor current
