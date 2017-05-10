@@ -9,26 +9,56 @@ DualVNH5019MotorShield::DualVNH5019MotorShield()
   _INB1 = 4;
   _EN1DIAG1 = 6;
   _CS1 = A0; 
+  _PWM1 = 9;
   _INA2 = 7;
   _INB2 = 8;
   _EN2DIAG2 = 12;
   _CS2 = A1;
+  _PWM2 = 10;
+  // initialize the register pointers to null. If not set we will use analogWrite
+  _PWM1_REG = NULL;
+  _PWM2_REG = NULL;
 }
 
-DualVNH5019MotorShield::DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1, 
+DualVNH5019MotorShield::DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1,
                                                unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2)
 {
   //Pin map
-  //PWM1 and PWM2 cannot be remapped because the library assumes PWM is on timer1
   _INA1 = INA1;
   _INB1 = INB1;
   _EN1DIAG1 = EN1DIAG1;
   _CS1 = CS1;
+  _PWM1 = 9;
   _INA2 = INA2;
   _INB2 = INB2;
   _EN2DIAG2 = EN2DIAG2;
   _CS2 = CS2;
+  _PWM2 = 10;
+  // initialize the register pointers to null. If not set we will use analogWrite
+  _PWM1_REG = NULL;
+  _PWM2_REG = NULL;
 }
+
+#if defined(__AVR_ATmega2560__)
+DualVNH5019MotorShield::DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1, unsigned char PWM1,
+											   unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2, unsigned char PWM2)
+{
+  //Pin map
+  _INA1 = INA1;
+  _INB1 = INB1;
+  _EN1DIAG1 = EN1DIAG1;
+  _CS1 = CS1;
+  _PWM1 = PWM1;
+  _INA2 = INA2;
+  _INB2 = INB2;
+  _EN2DIAG2 = EN2DIAG2;
+  _CS2 = CS2;
+  _PWM2 = PWM2;
+  // initialize the register pointers to null. If not set we will use analogWrite
+  _PWM1_REG = NULL;
+  _PWM2_REG = NULL;
+}
+#endif
 
 // Public Methods //////////////////////////////////////////////////////////////
 void DualVNH5019MotorShield::init()
@@ -45,6 +75,7 @@ void DualVNH5019MotorShield::init()
   pinMode(_PWM2,OUTPUT);
   pinMode(_EN2DIAG2,INPUT);
   pinMode(_CS2,INPUT);
+
   #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__) || defined(__AVR_ATmega32U4__)
   // Timer 1 configuration
   // prescaler: clockI/O / 1
@@ -54,12 +85,21 @@ void DualVNH5019MotorShield::init()
   //
   // PWM frequency calculation
   // 16MHz / 1 (prescaler) / 2 (phase-correct) / 400 (top) = 20kHz
-  TCCR1A = 0b10100000;
-  TCCR1B = 0b00010001;
-  ICR1 = 400;
+  if(_PWM1 == 9 || _PWM1 == 10 || _PWM2 == 9 || _PWM2 == 10)
+  {
+    TCCR1A = 0;
+    if(_PWM1 == 9)       { TCCR1A |= _BV(COM1A1); _PWM1_REG = &OCR1A; }
+    else if(_PWM1 == 10) { TCCR1A |= _BV(COM1B1); _PWM1_REG = &OCR1B; }
+    
+    if(_PWM2 == 9)       { TCCR1A |= _BV(COM1A1); _PWM2_REG = &OCR1A; }
+    else if(_PWM2 == 10) { TCCR1A |= _BV(COM1B1); _PWM2_REG = &OCR1B; }
+  
+    TCCR1B = _BV(WGM13) | _BV(CS10);
+    ICR1 = 400;
+  }
   #endif
 }
-// Set speed for motor 1, speed is a number betwenn -400 and 400
+// Set speed for motor 1, speed is a number between -400 and 400
 void DualVNH5019MotorShield::setM1Speed(int speed)
 {
   unsigned char reverse = 0;
@@ -71,11 +111,13 @@ void DualVNH5019MotorShield::setM1Speed(int speed)
   }
   if (speed > 400)  // Max PWM dutycycle
     speed = 400;
-  #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__) || defined(__AVR_ATmega32U4__)
-  OCR1A = speed;
-  #else
-  analogWrite(_PWM1,speed * 51 / 80); // default to using analogWrite, mapping 400 to 255
-  #endif
+    
+  if(_PWM1_REG) {
+    *_PWM1_REG = speed;                // if the register is set then use the timer
+  } else {
+    analogWrite(_PWM1,speed * 51/80); // default to using analogWrite, mapping 400 to 255
+  }
+
   if (speed == 0)
   {
     digitalWrite(_INA1,LOW);   // Make the motor coast no
@@ -93,23 +135,25 @@ void DualVNH5019MotorShield::setM1Speed(int speed)
   }
 }
 
-// Set speed for motor 2, speed is a number betwenn -400 and 400
+// Set speed for motor 2, speed is a number between -400 and 400
 void DualVNH5019MotorShield::setM2Speed(int speed)
 {
   unsigned char reverse = 0;
   
   if (speed < 0)
   {
-    speed = -speed;  // make speed a positive quantity
-    reverse = 1;  // preserve the direction
+    speed = -speed;  // Make speed a positive quantity
+    reverse = 1;  // Preserve the direction
   }
-  if (speed > 400)  // Max 
+  if (speed > 400)  // Max PWM dutycycle
     speed = 400;
-  #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__) || defined(__AVR_ATmega32U4__)
-  OCR1B = speed;
-  #else
-  analogWrite(_PWM2,speed * 51 / 80); // default to using analogWrite, mapping 400 to 255
-  #endif 
+
+  if(_PWM2_REG) {
+    *_PWM2_REG = speed;                // if the register is set then use the timer
+  } else {
+    analogWrite(_PWM2,speed * 51/80); // default to using analogWrite, mapping 400 to 255
+  }
+    
   if (speed == 0)
   {
     digitalWrite(_INA2,LOW);   // Make the motor coast no
@@ -146,11 +190,11 @@ void DualVNH5019MotorShield::setM1Brake(int brake)
     brake = 400;
   digitalWrite(_INA1, LOW);
   digitalWrite(_INB1, LOW);
-  #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__) || defined(__AVR_ATmega32U4__)
-  OCR1A = brake;
-  #else
-  analogWrite(_PWM1,brake * 51 / 80); // default to using analogWrite, mapping 400 to 255
-  #endif
+  if(_PWM1_REG) {
+    *_PWM1_REG = brake;                // if the register is set then use the timer
+  } else {
+    analogWrite(_PWM1,brake * 51/80); // default to using analogWrite, mapping 400 to 255
+  }
 }
 
 // Brake motor 2, brake is a number between 0 and 400
@@ -165,11 +209,11 @@ void DualVNH5019MotorShield::setM2Brake(int brake)
     brake = 400;
   digitalWrite(_INA2, LOW);
   digitalWrite(_INB2, LOW);
-  #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__) || defined(__AVR_ATmega32U4__)
-  OCR1B = brake;
-  #else
-  analogWrite(_PWM2,brake * 51 / 80); // default to using analogWrite, mapping 400 to 255
-  #endif
+  if(_PWM2_REG) {
+    *_PWM2_REG = brake;                // if the register is set then use the timer
+  } else {
+    analogWrite(_PWM2,brake * 51/80); // default to using analogWrite, mapping 400 to 255
+  }
 }
 
 // Brake motor 1 and 2, brake is a number between 0 and 400
