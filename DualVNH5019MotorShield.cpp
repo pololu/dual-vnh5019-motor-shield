@@ -1,4 +1,4 @@
-#include "../DualVNH5019MotorShield/DualVNH5019MotorShield.h"
+#include "DualVNH5019MotorShield.h"
 
 // Constructors ////////////////////////////////////////////////////////////////
 
