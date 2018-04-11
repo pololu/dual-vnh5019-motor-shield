@@ -102,13 +102,31 @@ detected, a message is sent over serial.
 - `void setBrakes(int m1Brake, int m2Brake)` <br> Set brake for motor 1 and
   2.
 - `unsigned int getM1CurrentMilliamps()` <br> Returns current reading from
-  motor 1 in milliamps.
+  motor 1 in milliamps.  See the notes in the "Current readings" section below.
 - `unsigned int getM2CurrentMilliamps()` <br> Returns current reading from
-  motor 2 in milliamps.
+  motor 2 in milliamps.  See the notes in the "Current readings" section below.
 - `unsigned char getM1Fault()` <br> Returns 1 if there is a fault on motor
   driver 1, 0 if no fault.
 - `unsigned char getM2Fault()` <br> Returns 1 if there is a fault on motor
   driver 2, 0 if no fault.
+
+### Current readings
+
+The current readings returned by `getM1CurrentMilliamps` and
+`getM2CurrentMilliamps` will be noisy and unreliable if you are using
+a PWM frequency below about 5&nbsp;kHz.  We expect these readings to
+work fine if you are using a board based on the ATmega168, ATmega328P,
+or ATmega32U4, since this library uses 20&nbsp;kHz hardware PWM on
+those boards.
+
+On other boards, this library uses `analogWrite` to generate PWM
+signals, which usually means that the PWM frequency will be too low to
+get reliable current measurements.  If `analogWrite` uses a frequency
+of 490&nbsp;Hz or more on your board, you can add a 1&nbsp;&micro;F
+(or larger) capacitor between each current sense line you are using
+and GND.  To make `getM1CurrentMilliamps` work well, you would add the
+capacitor between M1CS and GND.  To make `getM2CurrentMilliamps` work
+well, you would add the capacitor between M2CS and GND.
 
 ## Version history
 * 3.0.0 (2018-04-11): Allow PWM remapping (use analogWrite if PWM pins
