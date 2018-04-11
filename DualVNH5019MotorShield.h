@@ -1,5 +1,9 @@
-#ifndef DualVNH5019MotorShield_h
-#define DualVNH5019MotorShield_h
+#pragma once
+
+#if defined(__AVR_ATmega168__) || defined(__AVR_ATmega328P__) || \
+    defined(__AVR_ATmega328PB__) || defined (__AVR_ATmega32U4__)
+  #define DUALVNH5019MOTORSHIELD_TIMER1_AVAILABLE
+#endif
 
 #include <Arduino.h>
 
@@ -7,9 +11,19 @@ class DualVNH5019MotorShield
 {
   public:
     // CONSTRUCTORS
-    DualVNH5019MotorShield(); // Default pin selection.
-    DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1,
-                           unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2); // User-defined pin selection.
+    // Default pin selection.
+    DualVNH5019MotorShield();
+    // User-defined pin selection.
+    DualVNH5019MotorShield(unsigned char INA1,
+                           unsigned char INB1,
+                           unsigned char PWM1,
+                           unsigned char EN1DIAG1,
+                           unsigned char CS1,
+                           unsigned char INA2,
+                           unsigned char INB2,
+                           unsigned char PWM2,
+                           unsigned char EN2DIAG2,
+                           unsigned char CS2);
 
     // PUBLIC METHODS
     void init(); // Initialize TIMER 1, set the PWM to 20kHZ.
@@ -27,15 +41,15 @@ class DualVNH5019MotorShield
   private:
     unsigned char _INA1;
     unsigned char _INB1;
-    static const unsigned char _PWM1 = 9;
+    unsigned char _PWM1;
+    static const unsigned char _PWM1_TIMER1_PIN = 9;
     unsigned char _EN1DIAG1;
     unsigned char _CS1;
     unsigned char _INA2;
     unsigned char _INB2;
-    static const unsigned char _PWM2 = 10;
+    unsigned char _PWM2;
+    static const unsigned char _PWM2_TIMER1_PIN = 10;
     unsigned char _EN2DIAG2;
     unsigned char _CS2;
 
 };
-
-#endif

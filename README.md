@@ -1,7 +1,7 @@
 # Arduino library for the Pololu Dual VNH5019 Motor Driver Shield
 
-Version: 2.0.0<br>
-Release Date: 2016-08-16<br>
+Version: 3.0.0<br>
+Release Date: 2018-04-11<br>
 [![Build Status](https://travis-ci.org/pololu/dual-vnh5019-motor-shield.svg?branch=master)](https://travis-ci.org/pololu/dual-vnh5019-motor-shield)<br>
 [www.pololu.com](https://www.pololu.com/)
 
@@ -76,10 +76,12 @@ detected, a message is sent over serial.
 
 - `DualVNH5019MotorShield()`<br> Default constructor, selects the
   default pins as connected by the motor shield.
-- `DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1, unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2)` <br>
-  Alternate constructor for shield connections remapped by user. PWM1
-  and PWM2 cannot be remapped because the library assumes PWM is on
-  timer1.
+- `DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1,
+  unsigned char PWM1, unsigned char EN1DIAG1, unsigned char CS1,
+  unsigned char INA2, unsigned char INB2, unsigned char PWM2, unsigned
+  char EN2DIAG2, unsigned char CS2)` <br> Alternate constructor for
+  shield connections remapped by user. If PWM1 and PWM2 are
+  remapped, it will try to use analogWrite instead of timer1.
 - `void init()` <br> Initialize pinModes and timer1.
 - `void setM1Speed(int speed)` <br> Set speed and direction for motor 1.
   Speed should be between -400 and 400.  400 corresponds to motor
@@ -109,6 +111,8 @@ detected, a message is sent over serial.
   driver 2, 0 if no fault.
 
 ## Version history
+* 3.0.0 (2018-04-11): Allow PWM remapping (use analogWrite if PWM pins
+  remapped).
 * 2.0.0 (2016-08-16): Updated library to work with the Arduino Library Manager.
 * 1.2.4 (2016-08-10): Added continuous integration testing. Thanks photodude.
 * 1.2.3 (2014-03-24): Added 20 kHz PWM support for ATmega32U4. Thanks blacksound.
