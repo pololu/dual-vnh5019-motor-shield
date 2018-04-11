@@ -115,9 +115,9 @@ detected, a message is sent over serial.
 The current readings returned by `getM1CurrentMilliamps` and
 `getM2CurrentMilliamps` will be noisy and unreliable if you are using
 a PWM frequency below about 5&nbsp;kHz.  We expect these readings to
-work fine if you are using a board based on the ATmega168, ATmega328P,
-or ATmega32U4, since this library uses 20&nbsp;kHz hardware PWM on
-those boards.
+work fine if you haven't remapped the PWM pins and you are using a
+board based on the ATmega168, ATmega328P, ATmega328PB, or ATmega32U4,
+since this library uses 20&nbsp;kHz hardware PWM on those boards.
 
 On other boards, this library uses `analogWrite` to generate PWM
 signals, which usually means that the PWM frequency will be too low to
