@@ -8,14 +8,14 @@ DualVNH5019MotorShield::DualVNH5019MotorShield()
   _INA1 = 2;
   _INB1 = 4;
   _EN1DIAG1 = 6;
-  _CS1 = A0; 
+  _CS1 = A0;
   _INA2 = 7;
   _INB2 = 8;
   _EN2DIAG2 = 12;
   _CS2 = A1;
 }
 
-DualVNH5019MotorShield::DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1, 
+DualVNH5019MotorShield::DualVNH5019MotorShield(unsigned char INA1, unsigned char INB1, unsigned char EN1DIAG1, unsigned char CS1,
                                                unsigned char INA2, unsigned char INB2, unsigned char EN2DIAG2, unsigned char CS2)
 {
   //Pin map
@@ -63,7 +63,7 @@ void DualVNH5019MotorShield::init()
 void DualVNH5019MotorShield::setM1Speed(int speed)
 {
   unsigned char reverse = 0;
-  
+
   if (speed < 0)
   {
     speed = -speed;  // Make speed a positive quantity
@@ -97,19 +97,19 @@ void DualVNH5019MotorShield::setM1Speed(int speed)
 void DualVNH5019MotorShield::setM2Speed(int speed)
 {
   unsigned char reverse = 0;
-  
+
   if (speed < 0)
   {
     speed = -speed;  // make speed a positive quantity
     reverse = 1;  // preserve the direction
   }
-  if (speed > 400)  // Max 
+  if (speed > 400)  // Max
     speed = 400;
   #if defined(__AVR_ATmega168__)|| defined(__AVR_ATmega328P__) || defined(__AVR_ATmega32U4__)
   OCR1B = speed;
   #else
   analogWrite(_PWM2,speed * 51 / 80); // default to using analogWrite, mapping 400 to 255
-  #endif 
+  #endif
   if (speed == 0)
   {
     digitalWrite(_INA2,LOW);   // Make the motor coast no
@@ -193,13 +193,13 @@ unsigned int DualVNH5019MotorShield::getM2CurrentMilliamps()
   return analogRead(_CS2) * 34;
 }
 
-// Return error status for motor 1 
+// Return error status for motor 1
 unsigned char DualVNH5019MotorShield::getM1Fault()
 {
   return !digitalRead(_EN1DIAG1);
 }
 
-// Return error status for motor 2 
+// Return error status for motor 2
 unsigned char DualVNH5019MotorShield::getM2Fault()
 {
   return !digitalRead(_EN2DIAG2);
