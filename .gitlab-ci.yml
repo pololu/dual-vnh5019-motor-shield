@@ -8,4 +8,4 @@ ci:
   tags:
     - nix
   script:
-    - nix-shell -I nixpkgs=channel:nixos-20.09 -p arduino-cli --run './.ci.sh'
+    - nix-shell -I nixpkgs=channel:nixpkgs-unstable -p arduino-ci --run "arduino-ci"
